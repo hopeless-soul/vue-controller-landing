@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<style>
+body{margin:0;background:#121214;color:#f2f2f4;font-family:'Space Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#f2f2f4;text-decoration:none}
+a:hover{color:#ffffff}
+::selection{background:rgba(255,255,255,.2)}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;overflow:hidden">
+  <x-import component-from-global-scope="star-field" from="./starfield.js" density="1" style="position:fixed;inset:0;z-index:0;pointer-events:none" hint-size="100%,100%"></x-import>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 32px">
+
+    <nav data-reveal="nav" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:32px 0;opacity:0">
+      <a href="#top" style="display:flex;align-items:center;gap:16px;justify-self:center;grid-column:2">
+        <img src="assets/logo.png" alt="Customs logo" style="width:56px;height:56px;filter:invert(1);image-rendering:pixelated">
+        <span style="font-family:'VT323',monospace;font-size:34px;line-height:1;color:rgba(242,242,244,.5);transform:translateY(-2px)">×</span>
+        <span style="font-family:'Permanent Marker',cursive;font-size:30px;letter-spacing:1px">Customs</span>
+      </a>
+    </nav>
+
+    <section id="top" data-screen-label="Hero" style="display:grid;grid-template-columns:1fr;justify-items:center;text-align:center;padding:48px 0 32px">
+      <h1 style="margin:0;font-size:clamp(44px,7vw,84px);font-weight:700;line-height:1.02;letter-spacing:-2px;max-width:820px">
+        <span data-hero-word style="display:inline-block;opacity:0">Your</span>
+        <span data-hero-word style="display:inline-block;opacity:0">controller.</span>
+        <span data-hero-word style="display:inline-block;opacity:0;color:transparent;background:linear-gradient(105deg,#8a8a92,#ffffff 40%,#6a6a72 60%,#e8e8ec);-webkit-background-clip:text;background-clip:text">Chromed.</span>
+      </h1>
+      <p data-reveal="sub" style="margin:24px 0 0;font-size:18px;line-height:1.55;color:rgba(242,242,244,.62);max-width:520px;opacity:0">
+        A sculpted chrome shell that snaps over your controller. Mirror-finish, featherweight, and on in seconds.
+      </p>
+      <!-- <ProductSpinner> -->
+    </section>
+
+    <section id="features" data-screen-label="Features" style="padding:200px 0 60px">
+      <div data-reveal="features-h" style="text-align:center;opacity:0">
+        <div style="font-family:'VT323',monospace;font-size:20px;letter-spacing:4px;text-transform:uppercase;color:rgba(242,242,244,.4);margin-bottom:14px">[ SPEC SHEET ]</div>
+        <h2 style="margin:0 0 64px;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px">Built to turn heads</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+        <div data-reveal="card" style="display:flex;flex-direction:column;gap:18px;padding:40px 36px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:linear-gradient(175deg,rgba(255,255,255,.055),rgba(255,255,255,.008) 60%),#17171a;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 24px 48px -20px rgba(0,0,0,.7);opacity:0;transition:border-color .35s,transform .35s,box-shadow .35s" style-hover="border-color:rgba(255,255,255,.22);transform:translateY(-5px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 32px 64px -20px rgba(0,0,0,.85),0 0 40px -12px rgba(255,255,255,.12)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-family:'VT323',monospace;font-size:22px;color:rgba(242,242,244,.35)">01</span>
+            <span style="font-family:'VT323',monospace;font-size:17px;letter-spacing:2px;color:rgba(242,242,244,.35)">FINISH</span>
+          </div>
+          <div style="font-size:21px;font-weight:600;letter-spacing:-0.3px">Mirror chrome</div>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:rgba(242,242,244,.6)">Vacuum-metallized finish over an organic lattice shell. Catches every light in the room — and every camera on stream.</p>
+        </div>
+        <div data-reveal="card" style="display:flex;flex-direction:column;gap:18px;padding:40px 36px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:linear-gradient(175deg,rgba(255,255,255,.055),rgba(255,255,255,.008) 60%),#17171a;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 24px 48px -20px rgba(0,0,0,.7);opacity:0;transition:border-color .35s,transform .35s,box-shadow .35s" style-hover="border-color:rgba(255,255,255,.22);transform:translateY(-5px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 32px 64px -20px rgba(0,0,0,.85),0 0 40px -12px rgba(255,255,255,.12)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-family:'VT323',monospace;font-size:22px;color:rgba(242,242,244,.35)">02</span>
+            <span style="font-family:'VT323',monospace;font-size:17px;letter-spacing:2px;color:rgba(242,242,244,.35)">FIT · 28G</span>
+          </div>
+          <div style="font-size:21px;font-weight:600;letter-spacing:-0.3px">Zero interference</div>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:rgba(242,242,244,.6)">Contoured around every button, stick and trigger. Full range of motion, no added reach, 28 grams total.</p>
+        </div>
+        <div data-reveal="card" style="display:flex;flex-direction:column;gap:18px;padding:40px 36px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:linear-gradient(175deg,rgba(255,255,255,.055),rgba(255,255,255,.008) 60%),#17171a;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 24px 48px -20px rgba(0,0,0,.7);opacity:0;transition:border-color .35s,transform .35s,box-shadow .35s" style-hover="border-color:rgba(255,255,255,.22);transform:translateY(-5px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 32px 64px -20px rgba(0,0,0,.85),0 0 40px -12px rgba(255,255,255,.12)">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-family:'VT323',monospace;font-size:22px;color:rgba(242,242,244,.35)">03</span>
+            <span style="font-family:'VT323',monospace;font-size:17px;letter-spacing:2px;color:rgba(242,242,244,.35)">INSTALL</span>
+          </div>
+          <div style="font-size:21px;font-weight:600;letter-spacing:-0.3px">Snap-on install</div>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:rgba(242,242,244,.6)">No tools, no adhesive, no voided warranty. Press on in seconds, pop off just as fast.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="preorder" data-screen-label="Pre-order" style="padding:200px 0 160px;text-align:center">
+      <div data-reveal="cta" style="opacity:0">
+        <div style="font-family:'VT323',monospace;font-size:20px;letter-spacing:4px;text-transform:uppercase;color:rgba(242,242,244,.4);margin-bottom:14px">[ LIMITED RUN ]</div>
+        <div style="font-size:clamp(30px,5vw,52px);font-weight:700;letter-spacing:-1.5px;line-height:1.1">First run. 500 units.</div>
+        <p style="margin:18px auto 34px;font-size:17px;color:rgba(242,242,244,.6);max-width:420px;line-height:1.55">Ships worldwide this fall. Reserve yours before the first batch is gone.</p>
+        <button onClick="{{ onPreorder }}" data-cta-btn style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;letter-spacing:.2px;color:#0c0c0e;background:linear-gradient(180deg,#ffffff,#d8d8de 55%,#f0f0f4);border:1px solid rgba(255,255,255,.9);border-radius:999px;padding:19px 48px;cursor:pointer;box-shadow:inset 0 1px 0 #fff,0 1px 0 rgba(255,255,255,.15),0 10px 30px -8px rgba(0,0,0,.6);transition:transform .25s,box-shadow .25s,filter .25s" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:inset 0 1px 0 #fff,0 12px 44px -6px rgba(255,255,255,.28),0 14px 34px -8px rgba(0,0,0,.6);filter:brightness(1.05)">Pre-order — $40</button>
+        <div style="margin-top:14px;font-family:'VT323',monospace;font-size:17px;letter-spacing:1px;color:rgba(242,242,244,.35)">FULLY REFUNDABLE UNTIL SHIPPING</div>
+      </div>
+    </section>
+
+    <footer data-screen-label="Footer" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:36px 0 44px;border-top:1px solid rgba(255,255,255,.08)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <img src="assets/logo.png" alt="" style="width:22px;height:22px;filter:invert(1);image-rendering:pixelated">
+        <span style="font-family:'Permanent Marker',cursive;font-size:16px;color:rgba(242,242,244,.7)">Customs</span>
+        <span style="font-family:'VT323',monospace;font-size:15px;color:rgba(242,242,244,.3)">© 2026</span>
+      </div>
+      <div style="display:flex;gap:24px;font-size:14px">
+        <a href="#" style="color:rgba(242,242,244,.55)" style-hover="color:#fff">Instagram</a>
+        <a href="#" style="color:rgba(242,242,244,.55)" style-hover="color:#fff">TikTok</a>
+        <a href="#" style="color:rgba(242,242,244,.55)" style-hover="color:#fff">X</a>
+        <a href="#" style="color:rgba(242,242,244,.55)" style-hover="color:#fff">Discord</a>
+      </div>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;introSpin&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Spin&quot;}, &quot;dragSensitivity&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1, &quot;min&quot;: 0.3, &quot;max&quot;: 3, &quot;step&quot;: 0.1, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Spin&quot;}}">
+class Component extends DCLogic {
+  _frame = 0;
+  _imgRef = React.createRef();
+  setFrame(f) {
+    // mutate the img directly — no re-render, so anime-driven reveals are never clobbered
+    this._frame = f;
+    const n = ((Math.round(f) % 16) + 16) % 16;
+    if (this._imgRef.current) this._imgRef.current.src = `frames/frame-${String(n + 1).padStart(2, '0')}.png`;
+  }
+  renderVals() {
+    return {
+      imgRef: this._imgRef,
+      onSpinDown: (e) => this.startDrag(e),
+      onPreorder: (e) => {
+        anime.remove(e.currentTarget);
+        anime({ targets: e.currentTarget, scale: [{ value: 0.92, duration: 90 }, { value: 1, duration: 350, elasticity: 400 }] });
+      }
+    };
+  }
+  startDrag(e) {
+    e.preventDefault();
+    const stage = e.currentTarget;
+    stage.style.cursor = 'grabbing';
+    const sens = this.props.dragSensitivity ?? 1;
+    const startX = e.clientX, startFrame = this._frame;
+    let lastX = e.clientX, lastT = performance.now(), vel = 0;
+    anime.remove(this._spinProxy || {});
+    const move = (ev) => {
+      const now = performance.now();
+      vel = (ev.clientX - lastX) / Math.max(now - lastT, 1);
+      lastX = ev.clientX; lastT = now;
+      this.setFrame(startFrame + ((ev.clientX - startX) / (28 / sens)));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      stage.style.cursor = 'grab';
+      // inertia: convert px/ms velocity into extra frames, ease out
+      const extra = vel * 14 * sens;
+      if (Math.abs(extra) > 0.5) this.animateFrames(this._frame + extra, Math.min(1400, 300 + Math.abs(extra) * 90), 'easeOutQuart');
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+  animateFrames(to, duration, easing) {
+    this._spinProxy = { f: this._frame };
+    anime.remove(this._spinProxy);
+    anime({
+      targets: this._spinProxy, f: to, duration, easing,
+      update: () => this.setFrame(this._spinProxy.f)
+    });
+  }
+  componentDidMount() {
+    const wait = () => (window.anime ? this.intro() : setTimeout(wait, 60));
+    wait();
+  }
+  intro() {
+    // hero entrance
+    anime.timeline()
+      .add({ targets: '[data-reveal="nav"]', opacity: [0, 1], translateY: [-16, 0], duration: 700, easing: 'easeOutCubic' })
+      .add({ targets: '[data-hero-word]', opacity: [0, 1], translateY: [30, 0], rotate: [2, 0], delay: anime.stagger(120), duration: 800, easing: 'easeOutExpo' }, '-=400')
+      .add({ targets: '[data-reveal="sub"]', opacity: [0, 1], translateY: [16, 0], duration: 700, easing: 'easeOutCubic' }, '-=500')
+      .add({ targets: '[data-spin-stage]', opacity: [0, 1], scale: [0.9, 1], duration: 900, easing: 'easeOutExpo' }, '-=450')
+      .add({ targets: '[data-reveal="hint"]', opacity: [0, 1], duration: 600, easing: 'easeOutCubic' }, '-=300');
+    // initial auto-rotate: one full spin
+    if (this.props.introSpin ?? true) {
+      setTimeout(() => this.animateFrames(16, 2600, 'easeInOutCubic'), 900);
+    }
+    // scroll reveals
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        anime({ targets: en.target, opacity: [0, 1], translateY: [28, 0], duration: 800, easing: 'easeOutCubic', delay: en.target.dataset.reveal === 'card' ? (this._cardN = (this._cardN || 0) + 1) * 110 : 0 });
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('[data-reveal="features-h"],[data-reveal="card"],[data-reveal="cta"]').forEach((el) => io.observe(el));
+    this._io = io;
+  }
+  componentWillUnmount() { this._io && this._io.disconnect(); }
+}
+</script>
+</body>
+</html>
