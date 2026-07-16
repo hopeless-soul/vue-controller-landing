@@ -20,7 +20,7 @@ const Fixture = defineComponent({
 
 describe('useIntroTimeline', () => {
   it('runs without throwing against a matching DOM fixture', async () => {
-    const onSpinIntro = vi.fn()
+    const onSpinIntro = vi.fn<() => void>()
     const wrapper = mount(Fixture, { props: { onSpinIntro } })
     await expect(wrapper.get('button').trigger('click')).resolves.not.toThrow()
   })
