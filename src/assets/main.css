@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-hand: 'Permanent Marker', cursive;
+  --font-mono: 'VT323', monospace;
+}
+
+body {
+  margin: 0;
+  background-color: #121214;
+  color: #f2f2f4;
+  font-family: 'Space Grotesk', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+}
