@@ -15,8 +15,7 @@ defineExpose({
     class="grid grid-cols-1 justify-items-center px-0 pb-8 pt-12 text-center"
   >
     <h1 class="m-0 max-w-[820px] text-[clamp(44px,7vw,84px)] font-bold leading-[1.02] tracking-[-2px]">
-      <span data-hero-word class="inline-block opacity-0">Your</span> <span data-hero-word class="inline-block opacity-0">controller.</span>
-      <span
+      <span data-hero-word class="inline-block opacity-0">Your</span> <span data-hero-word class="inline-block opacity-0">controller.</span> <span
         data-hero-word
         class="inline-block bg-gradient-to-r from-[#8a8a92] via-white via-40% to-[#e8e8ec] bg-clip-text text-transparent opacity-0"
       >Reflected.</span>
