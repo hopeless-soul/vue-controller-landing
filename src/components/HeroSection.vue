@@ -14,14 +14,14 @@ defineExpose({
     <h1 class="m-0 uppercase">
       <p
         data-hero-word
-        class="inline-block text-5xl font-bold leading-[0.95] tracking-[-1px] opacity-0 lg:text-7xl"
+        class="inline-block text-6xl font-bold leading-[0.95] tracking-[-1px] opacity-0 lg:text-8xl"
       >
         Your controller
       </p>
       <br />
       <p
         data-hero-word
-        class="inline-block bg-linear-to-r from-[#8a8a92] via-white via-40% to-[#e8e8ec] bg-clip-text text-8xl font-bold leading-[0.95] tracking-[-2px] text-transparent opacity-0 lg:text-[128px]"
+        class="inline-block bg-linear-to-r from-[#8a8a92] via-white via-40% to-[#e8e8ec] bg-clip-text text-[120px] font-bold leading-[0.95] tracking-[-2px] text-transparent opacity-0 lg:text-[192px]"
       >
         Chromed.
       </p>
