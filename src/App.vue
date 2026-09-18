@@ -3,15 +3,19 @@ import { onMounted, useTemplateRef } from 'vue'
 import StarfieldBackground from './components/StarfieldBackground.vue'
 import AppNav from './components/AppNav.vue'
 import HeroSection from './components/HeroSection.vue'
+import SectionHeading from './components/SectionHeading.vue'
 import FeatureCard from './components/FeatureCard.vue'
+import InvaderSection from './components/InvaderSection.vue'
 import PreorderSection from './components/PreorderSection.vue'
+import PackagingPreviewSection from './components/PackagingPreviewSection.vue'
+import FaqSection from './components/FaqSection.vue'
+import GameTargetsSection from './components/GameTargetsSection.vue'
+import GameSection from './components/GameSection.vue'
 import AppFooter from './components/AppFooter.vue'
 import { FEATURES } from './content/features'
 import { useIntroTimeline } from './composables/useIntroTimeline'
-import { useScrollReveal } from './composables/useScrollReveal'
 
 const heroRef = useTemplateRef('hero')
-const featuresHeadingRef = useScrollReveal()
 
 const { play } = useIntroTimeline(() => heroRef.value?.playIntroSpin())
 
@@ -25,17 +29,8 @@ onMounted(() => play())
       <AppNav />
       <HeroSection ref="hero" />
 
-      <section id="features" class="px-0 pb-16 pt-[200px]">
-        <div ref="featuresHeadingRef" class="text-center opacity-0">
-          <div
-            class="mb-3.5 font-mono text-xl uppercase tracking-[4px] text-[rgba(242,242,244,0.4)]"
-          >
-            [ SPEC SHEET ]
-          </div>
-          <h2 class="m-0 mb-16 text-[clamp(28px,4vw,44px)] font-bold tracking-[-1px]">
-            Built different
-          </h2>
-        </div>
+      <section id="features" class="flex flex-col gap-[64px] px-0 pt-[120px] pb-16">
+        <SectionHeading label="[ SPEC SHEET ]" heading="Built different" />
         <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6">
           <FeatureCard
             v-for="(feature, index) in FEATURES"
@@ -46,7 +41,12 @@ onMounted(() => play())
         </div>
       </section>
 
+      <InvaderSection />
       <PreorderSection />
+      <PackagingPreviewSection />
+      <FaqSection />
+      <GameTargetsSection />
+      <GameSection />
       <AppFooter />
     </div>
   </div>
