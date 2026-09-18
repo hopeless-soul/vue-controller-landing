@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, type ComponentPublicInstance } from 'vue'
 import tankSprite from '@/assets/tank.png'
 import { useTankControls } from '@/composables/useTankControls'
 import { useInViewport } from '@/composables/useInViewport'
@@ -8,6 +8,10 @@ const TANK_WIDTH = 57
 const PROJECTILE_TRAVEL_MS = 900
 
 const { target: viewportTarget, isInViewport } = useInViewport()
+
+function setViewportTarget(el: Element | ComponentPublicInstance | null) {
+  viewportTarget.value = el as HTMLElement | null
+}
 const { trackRef, tankX, projectiles, onPointerMove, onPointerDown, removeProjectile } =
   useTankControls({
     tankWidth: TANK_WIDTH,
@@ -52,7 +56,7 @@ onUnmounted(() => {
 
 <template>
   <section
-    :ref="(el) => (viewportTarget.value = el as HTMLElement | null)"
+    :ref="setViewportTarget"
     class="flex items-center justify-center overflow-hidden"
   >
     <div
