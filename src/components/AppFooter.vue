@@ -6,7 +6,7 @@ const socialLinks = ['Instagram', 'TikTok', 'X', 'Discord']
 
 <template>
   <footer
-    class="flex flex-wrap items-center justify-between gap-5 border-t border-white/[0.08] px-0 pb-11 pt-9"
+    class="flex flex-wrap items-center justify-between gap-5 border-t border-white/[0.08] px-0 pt-[17px] pb-[16px]"
   >
     <div class="flex items-center gap-2.5">
       <img :src="logo" alt="" class="h-[12px] [image-rendering:pixelated] invert" />
