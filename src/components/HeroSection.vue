@@ -11,13 +11,17 @@ defineExpose({
 
 <template>
   <section id="top" class="grid grid-cols-1 justify-items-center px-0 pt-[80px] text-center">
-    <h1 class="m-0 text-6xl lg:text-8xl font-bold leading-[1.02] tracking-[-2px]">
-      <!-- <h1 class="m-0 text-[min(24rem,8vw)] font-bold leading-[1.02] tracking-[-2px]"> -->
-      <p data-hero-word class="inline-block opacity-0">Your controller.</p>
+    <h1 class="m-0 uppercase">
+      <p
+        data-hero-word
+        class="inline-block text-5xl font-bold leading-[0.95] tracking-[-1px] opacity-0 lg:text-7xl"
+      >
+        Your controller
+      </p>
       <br />
       <p
         data-hero-word
-        class="inline-block bg-linear-to-r from-[#8a8a92] via-white via-40% to-[#e8e8ec] bg-clip-text text-transparent opacity-0"
+        class="inline-block bg-linear-to-r from-[#8a8a92] via-white via-40% to-[#e8e8ec] bg-clip-text text-8xl font-bold leading-[0.95] tracking-[-2px] text-transparent opacity-0 lg:text-[128px]"
       >
         Chromed.
       </p>
@@ -29,6 +33,18 @@ defineExpose({
       A hand-finished steel grill that goes over your controller in seconds — mirror-polished,
       feather-light, zero compromise.
     </p>
-    <ProductSpinner ref="spinner" class="pt-[112px] w-full" />
+    <div class="relative w-full pt-[112px]">
+      <ProductSpinner ref="spinner" class="w-full" />
+      <div
+        class="absolute bottom-0 left-1/2 flex h-[61px] w-[503px] max-w-[90%] -translate-x-1/2 items-center justify-center bg-[#c5c5c5]"
+      >
+        <span
+          class="font-mono text-[15px] uppercase tracking-[4px] text-black"
+          style="font-variation-settings: 'BLED' 0, 'SCAN' 0"
+        >
+          [ 360° INSPECT ]
+        </span>
+      </div>
+    </div>
   </section>
 </template>

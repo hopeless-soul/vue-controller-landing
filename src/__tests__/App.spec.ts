@@ -7,7 +7,7 @@ describe('App', () => {
     const wrapper = mount(App)
     const text = wrapper.text()
     expect(text).toContain('Customs')
-    expect(text).toContain('Your controller.')
+    expect(text).toContain('Your controller')
     expect(text).toContain('Built different')
     expect(text).toContain('300 units. One shot.')
     expect(text).toContain('© 2026')
