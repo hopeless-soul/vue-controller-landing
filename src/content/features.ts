@@ -7,7 +7,7 @@ export interface Feature {
 export const FEATURES: Feature[] = [
   {
     tag: 'FINISH',
-    title: 'Show-floor chrome',
+    title: 'Mirror-polished surface',
     description:
       'Vacuum-metallized over a precision-lattice shell. Throws back every light source in the room, and every camera on stream.',
   },
@@ -19,7 +19,7 @@ export const FEATURES: Feature[] = [
   },
   {
     tag: 'INSTALL',
-    title: 'On in one snap',
+    title: 'Just stick it on',
     description: 'No tools, no glue, no warranty voided. Clicks on in seconds, pops off just as easily.',
   },
 ]
