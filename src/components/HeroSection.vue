@@ -24,9 +24,9 @@ defineExpose({
     </h1>
     <p
       data-reveal="sub"
-      class="m-0 mt-6 max-w-[520px] text-lg leading-[1.55] text-[rgba(242,242,244,0.62)] opacity-0"
+      class="m-0 max-w-[520px] pt-[23px] pb-[1px] text-lg leading-[1.55] text-[rgba(242,242,244,0.62)] opacity-0"
     >
-      A hand-finished steel grill that snaps over your controller in seconds — mirror-polished,
+      A hand-finished steel grill that goes over your controller in seconds — mirror-polished,
       feather-light, zero compromise.
     </p>
     <ProductSpinner ref="spinner" class="mt-10 w-full" />
