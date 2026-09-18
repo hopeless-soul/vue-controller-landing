@@ -20,7 +20,7 @@ function onPreorder(event: MouseEvent) {
       <div class="pt-[65px] pb-[13px] text-[clamp(30px,5vw,52px)] font-bold leading-[1.1] tracking-[-1.5px]">
         300 units. One shot.
       </div>
-      <p class="mx-auto max-w-[420px] text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
+      <p class="max-w-[420px] pt-[4px] pb-[22px] text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
         Hand-finished in small batches and gone fast. Reserve now, ships worldwide this fall.
       </p>
       <button

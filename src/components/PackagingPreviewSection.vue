@@ -7,7 +7,7 @@ const revealTarget = useScrollReveal()
 </script>
 
 <template>
-  <section class="flex flex-col items-center gap-[10px] pt-[120px]">
+  <section class="flex flex-col items-center justify-center gap-[10px] pt-[120px]">
     <SectionHeading label="[ PACKAGING ]" />
     <div ref="revealTarget" class="flex flex-col items-center opacity-0">
       <img

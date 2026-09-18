@@ -21,7 +21,7 @@ const FAQS: FaqEntry[] = [
 </script>
 
 <template>
-  <section class="flex flex-col items-start gap-[20px]">
+  <section class="flex flex-col items-start gap-[20px] p-[10px]">
     <h2 class="m-0 text-[32px] font-bold leading-[28px] tracking-[-0.3px] text-[#f2f2f4]">FAQ</h2>
     <div class="flex w-full flex-col gap-[16px]">
       <FaqItem v-for="faq in FAQS" :key="faq.question" :question="faq.question" :body="faq.body" />

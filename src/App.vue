@@ -29,7 +29,7 @@ onMounted(() => play())
       <AppNav />
       <HeroSection ref="hero" />
 
-      <section id="features" class="flex flex-col gap-[64px] px-0 pt-[120px] pb-16">
+      <section id="features" class="flex flex-col gap-[64px] px-0 pt-[120px]">
         <SectionHeading label="[ SPEC SHEET ]" heading="Built different" />
         <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6">
           <FeatureCard
