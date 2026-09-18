@@ -17,7 +17,10 @@ function onPreorder(event: MouseEvent) {
   <section id="preorder" class="px-0 pt-[120px] pb-40 text-center">
     <div ref="revealTarget" class="flex flex-col items-center gap-[12.7px] opacity-0">
       <SectionHeading label="[ FIRST DROP ]" />
-      <div class="pt-[65px] pb-[13px] text-[clamp(30px,5vw,52px)] font-bold leading-[1.1] tracking-[-1.5px]">
+      <div
+        class="pt-[65px] pb-[13px] font-mono text-[clamp(30px,5vw,52px)] leading-[1.1] tracking-[-1.5px]"
+        style="font-variation-settings: 'BLED' 0, 'SCAN' -27"
+      >
         300 units. One shot.
       </div>
       <p class="max-w-[420px] pt-[4px] pb-[22px] text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
@@ -25,7 +28,7 @@ function onPreorder(event: MouseEvent) {
       </p>
       <button
         type="button"
-        class="cursor-pointer rounded-full border border-white/90 bg-gradient-to-b from-white via-[#d8d8de] to-[#f0f0f4] px-[49px] py-[19px] text-[17px] font-semibold tracking-[0.2px] text-[#0c0c0e] shadow-[inset_0_1px_0_#fff,0_10px_30px_-8px_rgba(0,0,0,0.6)] transition-transform duration-200 hover:-translate-y-0.5 hover:scale-[1.03]"
+        class="cursor-pointer rounded-full border border-white/90 bg-gradient-to-b from-white via-[#d8d8de] to-[#f0f0f4] px-[49px] py-[19px] text-[17px] font-bold tracking-[0.2px] text-[#0c0c0e] shadow-[inset_0_1px_0_#fff,0_10px_30px_-8px_rgba(0,0,0,0.6)] transition-transform duration-200 hover:-translate-y-0.5 hover:scale-[1.03]"
         @click="onPreorder"
       >
         Reserve — $38

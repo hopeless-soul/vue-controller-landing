@@ -10,7 +10,7 @@ defineExpose({
 </script>
 
 <template>
-  <section id="top" class="grid grid-cols-1 justify-items-center px-0 pb-8 pt-12 text-center">
+  <section id="top" class="grid grid-cols-1 justify-items-center px-0 pt-[80px] text-center">
     <h1 class="m-0 text-6xl lg:text-8xl font-bold leading-[1.02] tracking-[-2px]">
       <!-- <h1 class="m-0 text-[min(24rem,8vw)] font-bold leading-[1.02] tracking-[-2px]"> -->
       <p data-hero-word class="inline-block opacity-0">Your controller.</p>
@@ -29,6 +29,6 @@ defineExpose({
       A hand-finished steel grill that goes over your controller in seconds — mirror-polished,
       feather-light, zero compromise.
     </p>
-    <ProductSpinner ref="spinner" class="mt-10 w-full" />
+    <ProductSpinner ref="spinner" class="pt-[112px] w-full" />
   </section>
 </template>

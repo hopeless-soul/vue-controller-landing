@@ -17,3 +17,11 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Sixtyfour is a variable font; Figma's mono labels use its "Close" style
+   (BLED 0, SCAN 0) rather than the default axis position. */
+.font-mono {
+  font-variation-settings:
+    'BLED' 0,
+    'SCAN' 0;
+}
+
