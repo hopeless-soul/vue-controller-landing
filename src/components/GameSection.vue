@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, type ComponentPublicInstance } from 'vue'
+import { onUnmounted, type ComponentPublicInstance } from 'vue'
 import tankSprite from '@/assets/tank.png'
 import { useTankControls } from '@/composables/useTankControls'
 import { useInViewport } from '@/composables/useInViewport'
@@ -18,7 +18,7 @@ const { trackRef, tankX, projectiles, onPointerMove, onPointerDown, removeProjec
     canFire: () => isInViewport.value,
   })
 
-const pendingTimeouts = new Set<ReturnType<typeof window.setTimeout>>()
+const pendingTimeouts = new Set<number>()
 
 function handleFire(event: PointerEvent) {
   const before = projectiles.value.length
@@ -33,22 +33,7 @@ function handleFire(event: PointerEvent) {
   }
 }
 
-let removeTouchListener: (() => void) | undefined
-
-onMounted(() => {
-  const track = trackRef.value
-  if (!track) return
-  const onTouchStart = (event: TouchEvent) => {
-    const touch = event.touches[0]
-    if (!touch) return
-    handleFire({ button: 0, clientX: touch.clientX } as PointerEvent)
-  }
-  track.addEventListener('touchstart', onTouchStart, { passive: true })
-  removeTouchListener = () => track.removeEventListener('touchstart', onTouchStart)
-})
-
 onUnmounted(() => {
-  removeTouchListener?.()
   pendingTimeouts.forEach((timeoutId) => window.clearTimeout(timeoutId))
   pendingTimeouts.clear()
 })
@@ -57,7 +42,7 @@ onUnmounted(() => {
 <template>
   <section
     :ref="setViewportTarget"
-    class="flex items-center justify-center overflow-hidden"
+    class="flex items-center justify-center"
   >
     <div
       ref="trackRef"
