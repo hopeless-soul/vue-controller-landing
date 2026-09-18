@@ -14,12 +14,18 @@ const { trackRef, tankX, projectiles, onPointerMove, onPointerDown, removeProjec
     canFire: () => isInViewport.value,
   })
 
+const pendingTimeouts = new Set<ReturnType<typeof window.setTimeout>>()
+
 function handleFire(event: PointerEvent) {
   const before = projectiles.value.length
   onPointerDown(event)
   if (projectiles.value.length > before) {
     const spawned = projectiles.value[projectiles.value.length - 1]!
-    window.setTimeout(() => removeProjectile(spawned.id), PROJECTILE_TRAVEL_MS)
+    const timeoutId = window.setTimeout(() => {
+      pendingTimeouts.delete(timeoutId)
+      removeProjectile(spawned.id)
+    }, PROJECTILE_TRAVEL_MS)
+    pendingTimeouts.add(timeoutId)
   }
 }
 
@@ -37,7 +43,11 @@ onMounted(() => {
   removeTouchListener = () => track.removeEventListener('touchstart', onTouchStart)
 })
 
-onUnmounted(() => removeTouchListener?.())
+onUnmounted(() => {
+  removeTouchListener?.()
+  pendingTimeouts.forEach((timeoutId) => window.clearTimeout(timeoutId))
+  pendingTimeouts.clear()
+})
 </script>
 
 <template>
@@ -55,7 +65,11 @@ onUnmounted(() => removeTouchListener?.())
         v-for="projectile in projectiles"
         :key="projectile.id"
         class="pointer-events-none absolute bottom-full h-[10px] w-[3px] -translate-x-1/2 rounded-full bg-white transition-transform ease-linear"
-        :style="{ left: `${projectile.x}px`, transitionDuration: `${PROJECTILE_TRAVEL_MS}ms`, transform: 'translate(-50%, -400px)' }"
+        :style="{
+          left: `${projectile.x}px`,
+          transitionDuration: `${PROJECTILE_TRAVEL_MS}ms`,
+          transform: projectile.launched ? 'translate(-50%, -400px)' : 'translate(-50%, 0)',
+        }"
       />
       <img
         :src="tankSprite"

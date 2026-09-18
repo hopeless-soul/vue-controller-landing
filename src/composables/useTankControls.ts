@@ -3,6 +3,7 @@ import { ref, type Ref } from 'vue'
 export interface Projectile {
   id: number
   x: number
+  launched: boolean
 }
 
 interface UseTankControlsOptions {
@@ -42,7 +43,12 @@ export function useTankControls(options: UseTankControlsOptions): {
   function onPointerDown(event: PointerEvent) {
     if (event.button !== 0) return
     if (!options.canFire()) return
-    projectiles.value.push({ id: nextProjectileId++, x: tankX.value + options.tankWidth / 2 })
+    const id = nextProjectileId++
+    projectiles.value.push({ id, x: tankX.value + options.tankWidth / 2, launched: false })
+    requestAnimationFrame(() => {
+      const projectile = projectiles.value.find((p) => p.id === id)
+      if (projectile) projectile.launched = true
+    })
   }
 
   function removeProjectile(id: number) {
