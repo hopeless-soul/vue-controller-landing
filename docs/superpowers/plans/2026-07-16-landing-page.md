@@ -14,7 +14,7 @@
 - animejs `^4.5.0`, imported via named exports (`animate`, `createTimeline`, `createAnimatable`, `utils`) — never the v3 global `anime.*` API.
 - All new/edited components use Tailwind utility classes in the template; no `scoped` `<style>` blocks (except where a plain CSS custom property/font-face is unavoidable, which goes in `main.css`).
 - `ProductSpinner` mutates the `<img>` `src` directly via a template ref during drag (bypassing Vue reactivity) — never store the live drag frame in a reactive `ref<number>`.
-- Copy is original (not the draft's placeholder text). Brand name: **Luster**. Price: **$38**. Run size: **300 units**. Shell weight: **27g**.
+- Copy is original (not the draft's placeholder text). Brand name: **Customs**. Price: **$38**. Run size: **300 units**. Shell weight: **27g**.
 - No backend/checkout integration; the pre-order button only plays a bounce animation.
 - The 16 spinner frames already exist at `src/assets/controller-render/0001.png`–`0016.png` — do not recreate or rename them.
 
@@ -23,6 +23,7 @@
 ## Task 1: Install dependencies, configure Tailwind + animejs, update HTML shell
 
 **Files:**
+
 - Modify: `package.json`
 - Modify: `vite.config.ts`
 - Create: `src/assets/main.css`
@@ -30,14 +31,17 @@
 - Modify: `index.html`
 
 **Interfaces:**
+
 - Produces: a working Tailwind v4 pipeline (`@import 'tailwindcss'` resolves, `@theme` font tokens `--font-hand`, `--font-mono` available as `font-hand`/`font-mono` utilities) and `animejs` available for import in later tasks.
 
 - [ ] **Step 1: Install dependencies**
 
 Run:
+
 ```bash
 npm install animejs@^4.5.0 tailwindcss@^4.3.2 @tailwindcss/vite@^4.3.2
 ```
+
 Expected: `package.json` `dependencies` gains `animejs`, `tailwindcss`, `@tailwindcss/vite`.
 
 - [ ] **Step 2: Wire the Tailwind Vite plugin**
@@ -110,15 +114,15 @@ Edit `index.html`:
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap"
       rel="stylesheet"
-    >
-    <title>Luster — Chrome Controller Shells</title>
+    />
+    <title>Customs — Chrome Controller Shells</title>
   </head>
   <body>
     <div id="app"></div>
@@ -144,6 +148,7 @@ git commit -m "chore: add Tailwind v4 and animejs v4, wire global stylesheet and
 ## Task 2: Port the starfield star-field engine (config, engine, prng, types)
 
 **Files:**
+
 - Create: `src/starfield/types.ts`
 - Create: `src/starfield/prng.ts`
 - Create: `src/starfield/config.ts`
@@ -152,6 +157,7 @@ git commit -m "chore: add Tailwind v4 and animejs v4, wire global stylesheet and
 - Test: `src/starfield/__tests__/engine.spec.ts`
 
 **Interfaces:**
+
 - Produces: `Star`, `LayerConfig`, `SeedSet` types; `mulberry32(seed): Rng`, `randRange(rng, min, max): number`; `SEEDS`, `LAYERS`, `SCROLL_TO_ANGULAR`, `SCROLL_TO_DRIFT`, `MAX_FRAME_TIME`, `SPEED_SLEW`, `MAX_DPR` constants; `createStars(layer, seeds, layerIndex): Star[]`, `approach(current, target, maxDelta): number`, `updateStars(stars, layer, scrollSpeed, dt): void`, `projectStar(star, layer, scrollSpeed, cx, cy, maxRadius): {x, y}`, `drawStars(ctx, stars, layer, scrollSpeed, width, height): void` — all consumed by `StarfieldBackground.vue` in Task 4.
 
 - [ ] **Step 1: Create `src/starfield/types.ts`**
@@ -594,12 +600,14 @@ git commit -m "feat: port starfield star-field engine from sibling starfield pro
 ## Task 3: Port the scroll-velocity composables
 
 **Files:**
+
 - Create: `src/composables/scrollInputs.ts`
 - Create: `src/composables/useScrollVelocity.ts`
 - Test: `src/composables/__tests__/scrollInputs.spec.ts`
 - Test: `src/composables/__tests__/useScrollVelocity.spec.ts`
 
 **Interfaces:**
+
 - Consumes: nothing from earlier tasks (only `animejs`, installed in Task 1).
 - Produces: `wheelInput`, `touchInput`, `ScrollInput`, `ScrollInputOptions` from `scrollInputs.ts`; `useScrollVelocity(target?, sources?): ScrollVelocity`, `ScrollVelocity`, `DECAY_DELAY`, `DECAY_DURATION` from `useScrollVelocity.ts` — consumed by `StarfieldBackground.vue` in Task 4.
 
@@ -1081,9 +1089,11 @@ git commit -m "feat: port scroll-velocity composables from sibling starfield pro
 ## Task 4: Port `StarfieldBackground.vue`
 
 **Files:**
+
 - Create: `src/components/StarfieldBackground.vue`
 
 **Interfaces:**
+
 - Consumes: `LAYERS`, `MAX_DPR`, `MAX_FRAME_TIME`, `SEEDS`, `SPEED_SLEW` from `src/starfield/config.ts`; `approach`, `createStars`, `drawStars`, `updateStars` from `src/starfield/engine.ts`; `useScrollVelocity`, `ScrollVelocity` from `src/composables/useScrollVelocity.ts` (all from Tasks 2–3).
 - Produces: a `<StarfieldBackground />` component with no props, rendered once in `App.vue` (Task 13).
 
@@ -1196,10 +1206,12 @@ git commit -m "feat: port StarfieldBackground component from sibling starfield p
 ## Task 5: `useSpinner` composable (pure frame math + drag/inertia)
 
 **Files:**
+
 - Create: `src/composables/useSpinner.ts`
 - Test: `src/composables/__tests__/useSpinner.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `animate` from `animejs`.
 - Produces: `FRAME_COUNT` (16), `normalizeFrame(frame, total?): number`, `frameFromDrag(startFrame, dragDeltaX, sensitivity): number` (pure, exported for testing), and `useSpinner(imgRef: Ref<HTMLImageElement | null>, frames: string[], options?: { sensitivity?: number }): { onPointerDown: (e: PointerEvent) => void; playIntroSpin: () => void }` — consumed by `ProductSpinner.vue` in Task 6.
 
@@ -1377,11 +1389,13 @@ git commit -m "feat: add useSpinner composable for drag-to-rotate product spinne
 ## Task 6: `ProductSpinner.vue`
 
 **Files:**
+
 - Create: `src/content/controllerFrames.ts`
 - Create: `src/components/ProductSpinner.vue`
 - Test: `src/components/__tests__/ProductSpinner.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `useSpinner`, `Spinner` from `src/composables/useSpinner.ts` (Task 5).
 - Produces: `CONTROLLER_FRAMES: string[]` (16 resolved asset URLs, ascending) from `controllerFrames.ts`; a `<ProductSpinner />` component (no props) exposing `{ playIntroSpin(): void }` via `defineExpose`, consumed by `HeroSection.vue` in Task 7.
 
@@ -1453,10 +1467,10 @@ defineExpose({ playIntroSpin })
     <img
       ref="image"
       :src="CONTROLLER_FRAMES[0]"
-      alt="Luster chrome controller shell, rotating product view"
+      alt="Customs chrome controller shell, rotating product view"
       draggable="false"
       class="pointer-events-none w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
-    >
+    />
   </div>
 </template>
 ```
@@ -1478,10 +1492,12 @@ git commit -m "feat: add ProductSpinner component"
 ## Task 7: `AppNav.vue`
 
 **Files:**
+
 - Create: `src/components/AppNav.vue`
 - Test: `src/components/__tests__/AppNav.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `src/assets/logo.png`.
 - Produces: a `<AppNav />` component (no props), consumed by `App.vue` in Task 13.
 
@@ -1497,8 +1513,8 @@ import AppNav from '../AppNav.vue'
 describe('AppNav', () => {
   it('renders the wordmark and a logo image', () => {
     const wrapper = mount(AppNav)
-    expect(wrapper.text()).toContain('Luster')
-    expect(wrapper.get('img').attributes('alt')).toContain('Luster')
+    expect(wrapper.text()).toContain('Customs')
+    expect(wrapper.get('img').attributes('alt')).toContain('Customs')
   })
 
   it('links to the hero anchor', () => {
@@ -1523,13 +1539,11 @@ import logo from '@/assets/logo.png'
 <template>
   <nav data-reveal="nav" class="grid grid-cols-[1fr_auto_1fr] items-center py-8 opacity-0">
     <a href="#top" class="col-start-2 col-end-3 flex items-center justify-self-center gap-4">
-      <img
-        :src="logo"
-        alt="Luster logo"
-        class="h-9 w-9 [image-rendering:pixelated] invert"
+      <img :src="logo" alt="Customs logo" class="h-9 w-9 [image-rendering:pixelated] invert" />
+      <span class="-translate-y-0.5 font-mono text-[34px] leading-none text-[rgba(242,242,244,0.5)]"
+        >×</span
       >
-      <span class="-translate-y-0.5 font-mono text-[34px] leading-none text-[rgba(242,242,244,0.5)]">×</span>
-      <span class="font-hand text-3xl tracking-wide">Luster</span>
+      <span class="font-hand text-3xl tracking-wide">Customs</span>
     </a>
   </nav>
 </template>
@@ -1552,10 +1566,12 @@ git commit -m "feat: add AppNav component"
 ## Task 8: `HeroSection.vue`
 
 **Files:**
+
 - Create: `src/components/HeroSection.vue`
 - Test: `src/components/__tests__/HeroSection.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `ProductSpinner.vue` (Task 6).
 - Produces: a `<HeroSection />` component (no props) exposing `{ playIntroSpin(): void }` via `defineExpose` (forwarded from the inner `ProductSpinner`), consumed by `App.vue` in Task 13.
 
@@ -1572,13 +1588,13 @@ describe('HeroSection', () => {
   it('renders the headline and subhead', () => {
     const wrapper = mount(HeroSection)
     expect(wrapper.text()).toContain('Your controller.')
-    expect(wrapper.text()).toContain('Reflected.')
+    expect(wrapper.text()).toContain('Chromed.')
     expect(wrapper.text()).toContain('mirror-polished')
   })
 
   it('renders the product spinner', () => {
     const wrapper = mount(HeroSection)
-    expect(wrapper.find('img[alt*="Luster"]').exists()).toBe(true)
+    expect(wrapper.find('img[alt*="Customs"]').exists()).toBe(true)
   })
 
   it('forwards playIntroSpin to the spinner', () => {
@@ -1609,17 +1625,17 @@ defineExpose({
 </script>
 
 <template>
-  <section
-    id="top"
-    class="grid grid-cols-1 justify-items-center px-0 pb-8 pt-12 text-center"
-  >
-    <h1 class="m-0 max-w-[820px] text-[clamp(44px,7vw,84px)] font-bold leading-[1.02] tracking-[-2px]">
+  <section id="top" class="grid grid-cols-1 justify-items-center px-0 pb-8 pt-12 text-center">
+    <h1
+      class="m-0 max-w-[820px] text-[clamp(44px,7vw,84px)] font-bold leading-[1.02] tracking-[-2px]"
+    >
       <span data-hero-word class="inline-block opacity-0">Your</span>
       <span data-hero-word class="inline-block opacity-0">controller.</span>
       <span
         data-hero-word
         class="inline-block bg-gradient-to-r from-[#8a8a92] via-white via-40% to-[#e8e8ec] bg-clip-text text-transparent opacity-0"
-      >Reflected.</span>
+        >Chromed.</span
+      >
     </h1>
     <p
       data-reveal="sub"
@@ -1650,11 +1666,13 @@ git commit -m "feat: add HeroSection component"
 ## Task 9: Feature content + `FeatureCard.vue`
 
 **Files:**
+
 - Create: `src/content/features.ts`
 - Create: `src/components/FeatureCard.vue`
 - Test: `src/components/__tests__/FeatureCard.spec.ts`
 
 **Interfaces:**
+
 - Produces: `Feature` interface and `FEATURES: Feature[]` (3 entries) from `features.ts`; a `<FeatureCard :feature :index />` component consumed by `App.vue` in Task 13.
 
 - [ ] **Step 1: Create `src/content/features.ts`**
@@ -1682,7 +1700,8 @@ export const FEATURES: Feature[] = [
   {
     tag: 'INSTALL',
     title: 'On in one snap',
-    description: 'No tools, no glue, no warranty voided. Clicks on in seconds, pops off just as easily.',
+    description:
+      'No tools, no glue, no warranty voided. Clicks on in seconds, pops off just as easily.',
   },
 ]
 ```
@@ -1736,10 +1755,14 @@ const displayNumber = computed(() => String(props.index + 1).padStart(2, '0'))
   >
     <div class="flex items-baseline justify-between">
       <span class="font-mono text-xl text-[rgba(242,242,244,0.35)]">{{ displayNumber }}</span>
-      <span class="font-mono text-base tracking-[2px] text-[rgba(242,242,244,0.35)]">{{ feature.tag }}</span>
+      <span class="font-mono text-base tracking-[2px] text-[rgba(242,242,244,0.35)]">{{
+        feature.tag
+      }}</span>
     </div>
     <div class="text-xl font-semibold tracking-[-0.3px]">{{ feature.title }}</div>
-    <p class="m-0 text-[15px] leading-[1.6] text-[rgba(242,242,244,0.6)]">{{ feature.description }}</p>
+    <p class="m-0 text-[15px] leading-[1.6] text-[rgba(242,242,244,0.6)]">
+      {{ feature.description }}
+    </p>
   </div>
 </template>
 ```
@@ -1761,10 +1784,12 @@ git commit -m "feat: add feature content and FeatureCard component"
 ## Task 10: `useScrollReveal` composable
 
 **Files:**
+
 - Create: `src/composables/useScrollReveal.ts`
 - Test: `src/composables/__tests__/useScrollReveal.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `animate` from `animejs`.
 - Produces: `useScrollReveal(delayMs?: number): Ref<HTMLElement | null>` — a template ref to attach to any element; when it enters the viewport (or immediately, if `IntersectionObserver` is unavailable) it fades/slides in once. Consumed by `App.vue` in Task 13 for the features heading, and internally by `FeatureCard` usages there.
 
@@ -1874,10 +1899,12 @@ git commit -m "feat: add useScrollReveal composable"
 ## Task 11: `PreorderSection.vue`
 
 **Files:**
+
 - Create: `src/components/PreorderSection.vue`
 - Test: `src/components/__tests__/PreorderSection.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `animate` from `animejs`, `useScrollReveal` from Task 10.
 - Produces: a `<PreorderSection />` component (no props), consumed by `App.vue` in Task 13.
 
@@ -1923,7 +1950,10 @@ const revealTarget = useScrollReveal()
 function onPreorder(event: MouseEvent) {
   const button = event.currentTarget as HTMLElement
   animate(button, {
-    scale: [{ to: 0.92, duration: 90 }, { to: 1, duration: 350, ease: 'outElastic' }],
+    scale: [
+      { to: 0.92, duration: 90 },
+      { to: 1, duration: 350, ease: 'outElastic' },
+    ],
   })
 }
 </script>
@@ -1937,7 +1967,9 @@ function onPreorder(event: MouseEvent) {
       <div class="text-[clamp(30px,5vw,52px)] font-bold leading-[1.1] tracking-[-1.5px]">
         300 units. One shot.
       </div>
-      <p class="mx-auto mb-[34px] mt-[18px] max-w-[420px] text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
+      <p
+        class="mx-auto mb-[34px] mt-[18px] max-w-[420px] text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]"
+      >
         Hand-finished in small batches and gone fast. Reserve now, ships worldwide this fall.
       </p>
       <button
@@ -1972,10 +2004,12 @@ git commit -m "feat: add PreorderSection component"
 ## Task 12: `AppFooter.vue`
 
 **Files:**
+
 - Create: `src/components/AppFooter.vue`
 - Test: `src/components/__tests__/AppFooter.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `src/assets/logo.png`.
 - Produces: a `<AppFooter />` component (no props), consumed by `App.vue` in Task 13.
 
@@ -1991,7 +2025,7 @@ import AppFooter from '../AppFooter.vue'
 describe('AppFooter', () => {
   it('renders the brand and copyright', () => {
     const wrapper = mount(AppFooter)
-    expect(wrapper.text()).toContain('Luster')
+    expect(wrapper.text()).toContain('Customs')
     expect(wrapper.text()).toContain('© 2026')
   })
 
@@ -2018,10 +2052,12 @@ const socialLinks = ['Instagram', 'TikTok', 'X', 'Discord']
 </script>
 
 <template>
-  <footer class="flex flex-wrap items-center justify-between gap-5 border-t border-white/[0.08] px-0 pb-11 pt-9">
+  <footer
+    class="flex flex-wrap items-center justify-between gap-5 border-t border-white/[0.08] px-0 pb-11 pt-9"
+  >
     <div class="flex items-center gap-2.5">
-      <img :src="logo" alt="" class="h-[22px] w-[22px] [image-rendering:pixelated] invert">
-      <span class="font-hand text-base text-[rgba(242,242,244,0.7)]">Luster</span>
+      <img :src="logo" alt="" class="h-[22px] w-[22px] [image-rendering:pixelated] invert" />
+      <span class="font-hand text-base text-[rgba(242,242,244,0.7)]">Customs</span>
       <span class="font-mono text-[15px] text-[rgba(242,242,244,0.3)]">© 2026</span>
     </div>
     <div class="flex gap-6 text-sm">
@@ -2030,7 +2066,8 @@ const socialLinks = ['Instagram', 'TikTok', 'X', 'Discord']
         :key="link"
         href="#"
         class="text-[rgba(242,242,244,0.55)] hover:text-white"
-      >{{ link }}</a>
+        >{{ link }}</a
+      >
     </div>
   </footer>
 </template>
@@ -2053,10 +2090,12 @@ git commit -m "feat: add AppFooter component"
 ## Task 13: `useIntroTimeline` composable
 
 **Files:**
+
 - Create: `src/composables/useIntroTimeline.ts`
 - Test: `src/composables/__tests__/useIntroTimeline.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `createTimeline`, `stagger` from `animejs`.
 - Produces: `useIntroTimeline(onSpinIntro: () => void): { play(): void }` — `play()` builds and starts the mount-time entrance timeline (nav → hero words → subhead → spinner fade-in), then after the timeline's spinner step calls `onSpinIntro()`. Consumed by `App.vue` in Task 14.
 
@@ -2113,7 +2152,12 @@ import { createTimeline, stagger } from 'animejs'
 export function useIntroTimeline(onSpinIntro: () => void): { play: () => void } {
   function play() {
     createTimeline()
-      .add('[data-reveal="nav"]', { opacity: [0, 1], translateY: [-16, 0], duration: 700, ease: 'outCubic' })
+      .add('[data-reveal="nav"]', {
+        opacity: [0, 1],
+        translateY: [-16, 0],
+        duration: 700,
+        ease: 'outCubic',
+      })
       .add(
         '[data-hero-word]',
         {
@@ -2126,8 +2170,16 @@ export function useIntroTimeline(onSpinIntro: () => void): { play: () => void } 
         },
         '-=400',
       )
-      .add('[data-reveal="sub"]', { opacity: [0, 1], translateY: [16, 0], duration: 700, ease: 'outCubic' }, '-=500')
-      .add('[data-spin-stage]', { opacity: [0, 1], scale: [0.9, 1], duration: 900, ease: 'outExpo' }, '-=450')
+      .add(
+        '[data-reveal="sub"]',
+        { opacity: [0, 1], translateY: [16, 0], duration: 700, ease: 'outCubic' },
+        '-=500',
+      )
+      .add(
+        '[data-spin-stage]',
+        { opacity: [0, 1], scale: [0.9, 1], duration: 900, ease: 'outExpo' },
+        '-=450',
+      )
 
     setTimeout(onSpinIntro, 900)
   }
@@ -2153,10 +2205,12 @@ git commit -m "feat: add useIntroTimeline composable"
 ## Task 14: Compose `App.vue`, update its test, remove the old scaffold assertion
 
 **Files:**
+
 - Modify: `src/App.vue`
 - Modify: `src/__tests__/App.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `StarfieldBackground.vue` (Task 4), `AppNav.vue` (Task 7), `HeroSection.vue` (Task 8), `FeatureCard.vue` + `FEATURES` (Task 9), `useScrollReveal` (Task 10), `PreorderSection.vue` (Task 11), `AppFooter.vue` (Task 12), `useIntroTimeline` (Task 13).
 - Produces: the fully composed page.
 
@@ -2173,7 +2227,7 @@ describe('App', () => {
   it('renders every section of the landing page', () => {
     const wrapper = mount(App)
     const text = wrapper.text()
-    expect(text).toContain('Luster')
+    expect(text).toContain('Customs')
     expect(text).toContain('Your controller.')
     expect(text).toContain('Built different')
     expect(text).toContain('300 units. One shot.')
@@ -2224,10 +2278,14 @@ onMounted(() => play())
 
       <section id="features" class="px-0 pb-16 pt-[200px]">
         <div ref="featuresHeadingRef" class="text-center opacity-0">
-          <div class="mb-3.5 font-mono text-xl uppercase tracking-[4px] text-[rgba(242,242,244,0.4)]">
+          <div
+            class="mb-3.5 font-mono text-xl uppercase tracking-[4px] text-[rgba(242,242,244,0.4)]"
+          >
             [ SPEC SHEET ]
           </div>
-          <h2 class="m-0 mb-16 text-[clamp(28px,4vw,44px)] font-bold tracking-[-1px]">Built different</h2>
+          <h2 class="m-0 mb-16 text-[clamp(28px,4vw,44px)] font-bold tracking-[-1px]">
+            Built different
+          </h2>
         </div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6">
           <FeatureCard
@@ -2282,6 +2340,7 @@ Expected: `oxlint` and `eslint` both complete with no unresolved errors (auto-fi
 - [ ] **Step 4: Manual smoke check**
 
 Run: `npm run dev`, open the printed local URL in a browser, and verify:
+
 - The starfield background renders and parallaxes when scrolling/wheeling.
 - The intro plays once on load (nav → headline words → subhead → spinner → one auto-rotation).
 - Dragging the spinner rotates the controller image smoothly and releases with inertia.

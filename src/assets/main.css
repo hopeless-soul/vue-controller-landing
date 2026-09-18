@@ -2,7 +2,7 @@
 
 @theme {
   --font-hand: 'Permanent Marker', cursive;
-  --font-mono: 'VT323', monospace;
+  --font-mono: 'Sixtyfour', monospace;
 }
 
 body {
@@ -16,3 +16,4 @@ body {
 ::selection {
   background: rgba(255, 255, 255, 0.2);
 }
+

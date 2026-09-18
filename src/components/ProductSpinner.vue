@@ -18,9 +18,9 @@ defineExpose({ playIntroSpin })
     <img
       ref="image"
       :src="CONTROLLER_FRAMES[0]"
-      alt="Luster chrome controller shell, rotating product view"
+      alt="Customs chrome controller shell, rotating product view"
       draggable="false"
       class="pointer-events-none w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
-    >
+    />
   </div>
 </template>
