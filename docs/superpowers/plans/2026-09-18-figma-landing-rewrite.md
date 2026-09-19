@@ -36,9 +36,11 @@ No download step is needed in later tasks — just `import` these paths.
 ## Task 1: Fix feature card copy to match Figma
 
 **Files:**
+
 - Modify: `src/content/features.ts`
 
 **Interfaces:**
+
 - Produces: `FEATURES: Feature[]` (unchanged shape, only content values change) — consumed by `FeatureCard.vue` in Task 2 and `App.vue`.
 
 Figma's Card Section (node `4:22`) titles are `Mirror-polished surface`, `Disappears in your hands`, `Just stick it on` — the current code has `Show-floor chrome` and `On in one snap` instead of the first and third. Descriptions and tags already match Figma.
@@ -70,7 +72,8 @@ export const FEATURES: Feature[] = [
   {
     tag: 'INSTALL',
     title: 'Just stick it on',
-    description: 'No tools, no glue, no warranty voided. Clicks on in seconds, pops off just as easily.',
+    description:
+      'No tools, no glue, no warranty voided. Clicks on in seconds, pops off just as easily.',
   },
 ]
 ```
@@ -92,9 +95,11 @@ git commit -m "fix: sync feature card titles with Figma copy"
 ## Task 2: Resync `FeatureCard.vue` spacing and remove the index number
 
 **Files:**
+
 - Modify: `src/components/FeatureCard.vue`
 
 **Interfaces:**
+
 - Consumes: `Feature` from `src/content/features.ts` (Task 1), `useScrollReveal` from `src/composables/useScrollReveal.ts` (unchanged signature: `useScrollReveal(delayMs?: number): Ref<HTMLElement | null>`).
 - Produces: same `<FeatureCard :feature :index>` public props as before — `App.vue`'s usage in Task 15 is unaffected.
 
@@ -121,10 +126,14 @@ const revealTarget = useScrollReveal(props.index * 110)
     class="flex flex-col gap-[16px] rounded-[20px] border border-white/[0.08] bg-gradient-to-b from-white/[0.055] to-[#17171a] p-[37px] opacity-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_48px_-20px_rgba(0,0,0,0.7)] transition-[border-color,transform,box-shadow] duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_32px_64px_-20px_rgba(0,0,0,0.85)]"
   >
     <div class="flex items-baseline justify-between">
-      <span class="font-mono text-sm tracking-[2px] text-[rgba(242,242,244,0.35)]">{{ feature.tag }}</span>
+      <span class="font-mono text-sm tracking-[2px] text-[rgba(242,242,244,0.35)]">{{
+        feature.tag
+      }}</span>
     </div>
     <div class="text-[32px] font-bold tracking-[-0.3px]">{{ feature.title }}</div>
-    <p class="m-0 text-[15px] leading-[1.6] text-[rgba(242,242,244,0.6)]">{{ feature.description }}</p>
+    <p class="m-0 text-[15px] leading-[1.6] text-[rgba(242,242,244,0.6)]">
+      {{ feature.description }}
+    </p>
   </div>
 </template>
 ```
@@ -148,9 +157,11 @@ git commit -m "fix: resync FeatureCard spacing and drop index number to match Fi
 ## Task 3: Resync `AppNav.vue` padding
 
 **Files:**
+
 - Modify: `src/components/AppNav.vue`
 
 **Interfaces:**
+
 - Produces: same rendered nav markup consumed by `App.vue` — no prop/emit changes.
 
 Figma's Nav (`4:6`) uses `flex items-center justify-center px-[42px] pt-[32px] pb-[16px]` with `gap-[16px]` on the logo row. Current code uses a CSS grid with `py-8` (32px both top and bottom) and `gap-4` (16px, already correct).
@@ -165,7 +176,10 @@ import logo from '@/assets/logo.png'
 </script>
 
 <template>
-  <nav data-reveal="nav" class="flex items-center justify-center px-[42px] pt-[32px] pb-[16px] opacity-0">
+  <nav
+    data-reveal="nav"
+    class="flex items-center justify-center px-[42px] pt-[32px] pb-[16px] opacity-0"
+  >
     <a href="#top" class="flex items-center gap-[16px]">
       <img :src="logo" alt="hk logo" class="h-6 [image-rendering:pixelated] invert" />
       <span class="translate-y-0.5 font-mono text-[16px] leading-none text-[rgba(242,242,244,0.5)]"
@@ -194,9 +208,11 @@ git commit -m "fix: resync AppNav padding to match Figma"
 ## Task 4: Resync `HeroSection.vue` copy and subtext spacing
 
 **Files:**
+
 - Modify: `src/components/HeroSection.vue`
 
 **Interfaces:**
+
 - Produces: same `playIntroSpin()` exposed method — `App.vue`'s `heroRef.value?.playIntroSpin()` call is unaffected.
 
 Figma's Subtle Hero Text (`4:17`) copy reads "goes over your controller" — current code says "snaps over your controller". Figma's padding on that text block is `pt-[23px] pb-[1px]` (rounded from `23.13px`/`0.645px`); current is `mt-6`.
@@ -234,9 +250,11 @@ git commit -m "fix: resync hero subtext copy and spacing to match Figma"
 ## Task 5: Create shared `SectionHeading.vue`
 
 **Files:**
+
 - Create: `src/components/SectionHeading.vue`
 
 **Interfaces:**
+
 - Produces: `SectionHeading` component with props `{ label: string; heading?: string }`. `label` renders the small mono `[ LABEL ]` line; `heading`, if provided, renders the large bold line below it. Consumed by `App.vue` (Task 15) and `PreorderSection.vue` (Task 6).
 
 Figma's "Section Heading Container" instance (`105:27`/`105:50`/`105:58`) is `flex flex-col gap-[14px] items-center` (the label itself is centered via its own `items-center` wrapper), label text is `font-mono text-xl uppercase tracking-[4px] text-[rgba(242,242,244,0.4)]`, and the optional heading is `text-[44px] font-bold tracking-[-1px] leading-[66px]` in `#f2f2f4`.
@@ -253,7 +271,10 @@ defineProps<{ label: string; heading?: string }>()
     <div class="font-mono text-xl uppercase tracking-[4px] text-[rgba(242,242,244,0.4)]">
       {{ label }}
     </div>
-    <h2 v-if="heading" class="m-0 text-[44px] font-bold leading-[66px] tracking-[-1px] text-[#f2f2f4]">
+    <h2
+      v-if="heading"
+      class="m-0 text-[44px] font-bold leading-[66px] tracking-[-1px] text-[#f2f2f4]"
+    >
       {{ heading }}
     </h2>
   </div>
@@ -277,13 +298,16 @@ git commit -m "feat: add shared SectionHeading component"
 ## Task 6: Resync `PreorderSection.vue`
 
 **Files:**
+
 - Modify: `src/components/PreorderSection.vue`
 
 **Interfaces:**
+
 - Consumes: `SectionHeading` from Task 5 (`{ label }`, no `heading` prop passed).
 - Produces: same section markup — no props/emits, so nothing downstream changes.
 
 Figma's Preorder Section (`45:27`) differs from current code in:
+
 - Section gap is `gap-[12.7px]` between the heading/headline/subtext/button/footer blocks (flex-col), with `pt-[120px]` on the section itself (current: `pb-40 pt-48`, no explicit gap).
 - The `[ FIRST DROP ]` label uses the new shared heading component instead of inline markup.
 - The headline "300 units. One shot." block has `pt-[65px] pb-[13px]` (current: none, relies on `mb-3.5` above).
@@ -305,7 +329,10 @@ const revealTarget = useScrollReveal()
 function onPreorder(event: MouseEvent) {
   const button = event.currentTarget as HTMLElement
   animate(button, {
-    scale: [{ to: 0.92, duration: 90 }, { to: 1, duration: 350, ease: 'outElastic' }],
+    scale: [
+      { to: 0.92, duration: 90 },
+      { to: 1, duration: 350, ease: 'outElastic' },
+    ],
   })
 }
 </script>
@@ -314,7 +341,9 @@ function onPreorder(event: MouseEvent) {
   <section id="preorder" class="px-0 pt-[120px] pb-40 text-center">
     <div ref="revealTarget" class="flex flex-col items-center gap-[12.7px] opacity-0">
       <SectionHeading label="[ FIRST DROP ]" />
-      <div class="pt-[65px] pb-[13px] text-[clamp(30px,5vw,52px)] font-bold leading-[1.1] tracking-[-1.5px]">
+      <div
+        class="pt-[65px] pb-[13px] text-[clamp(30px,5vw,52px)] font-bold leading-[1.1] tracking-[-1.5px]"
+      >
         300 units. One shot.
       </div>
       <p class="mx-auto max-w-[420px] text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
@@ -352,9 +381,11 @@ git commit -m "fix: resync PreorderSection spacing and copy to match Figma"
 ## Task 7: Create `InvaderSection.vue`
 
 **Files:**
+
 - Create: `src/components/InvaderSection.vue`
 
 **Interfaces:**
+
 - Produces: `InvaderSection` component, no props. Consumed by `App.vue` (Task 15).
 
 Figma's Invader Section (`105:81`) is `flex items-start justify-center` containing one `128×128` icon, no other spacing.
@@ -390,9 +421,11 @@ git commit -m "feat: add InvaderSection component"
 ## Task 8: Create `PackagingPreviewSection.vue`
 
 **Files:**
+
 - Create: `src/components/PackagingPreviewSection.vue`
 
 **Interfaces:**
+
 - Consumes: `SectionHeading` from Task 5.
 - Produces: `PackagingPreviewSection` component, no props. Consumed by `App.vue` (Task 15).
 
@@ -420,7 +453,9 @@ const revealTarget = useScrollReveal()
         height="348"
         class="w-full max-w-[693px]"
       />
-      <p class="max-w-[420px] pt-[4px] pb-[22px] text-center text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
+      <p
+        class="max-w-[420px] pt-[4px] pb-[22px] text-center text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]"
+      >
         Hand-finished, laser-precision engineered packaging that transforms unboxing into ritual.
       </p>
     </div>
@@ -445,10 +480,12 @@ git commit -m "feat: add PackagingPreviewSection component"
 ## Task 9: Create `FaqItem.vue` and `FaqSection.vue`
 
 **Files:**
+
 - Create: `src/components/FaqItem.vue`
 - Create: `src/components/FaqSection.vue`
 
 **Interfaces:**
+
 - `FaqItem` produces props `{ question: string; body?: string }`, no emits — manages its own open/closed state internally.
 - `FaqSection` consumes `FaqItem` and a local FAQ data array; produces `FaqSection` component with no props, consumed by `App.vue` (Task 15).
 
@@ -518,11 +555,17 @@ const FAQS: FaqEntry[] = [
     body: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
   },
   {
-    question: 'what is it made of',
+    question: 'What is it made of',
     body: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
   },
-  { question: 'Shipping & delivery' },
-  { question: 'PURCHASES AND PAYMENT' },
+  {
+    question: 'Shipping & delivery',
+    body: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+  },
+  {
+    question: 'Puprchases and payment',
+    body: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+  },
 ]
 </script>
 
@@ -553,9 +596,11 @@ git commit -m "feat: add FaqSection and FaqItem components"
 ## Task 10: Create `GameTargetsSection.vue`
 
 **Files:**
+
 - Create: `src/components/GameTargetsSection.vue`
 
 **Interfaces:**
+
 - Produces: `GameTargetsSection` component, no props. Exposes no template ref (purely decorative, no game logic lives here per spec). Consumed by `App.vue` (Task 15), placed directly above `GameSection`.
 
 Figma's Game Targets Section (`57:37`) is `flex items-start justify-center gap-[98px] pt-[120px]`, 5 identical `56×56` sprites.
@@ -600,9 +645,11 @@ git commit -m "feat: add GameTargetsSection component"
 ## Task 11: Create `useInViewport` composable
 
 **Files:**
+
 - Create: `src/composables/useInViewport.ts`
 
 **Interfaces:**
+
 - Produces: `useInViewport(): { target: Ref<HTMLElement | null>; isInViewport: Ref<boolean> }`. Consumed by `GameSection.vue` (Task 13) to gate firing.
 
 Mirrors `useScrollReveal.ts`'s IntersectionObserver setup, but tracks ongoing visibility (both enter and exit) instead of firing once.
@@ -665,9 +712,11 @@ git commit -m "feat: add useInViewport composable"
 ## Task 12: Create `useTankControls` composable
 
 **Files:**
+
 - Create: `src/composables/useTankControls.ts`
 
 **Interfaces:**
+
 - Produces: `useTankControls(options: { tankWidth: number; canFire: () => boolean }): { trackRef: Ref<HTMLElement | null>; tankX: Ref<number>; projectiles: Ref<Projectile[]>; onPointerMove: (e: PointerEvent) => void; onPointerDown: (e: PointerEvent) => void }` where `Projectile = { id: number; x: number }`. Consumed by `GameSection.vue` (Task 13).
 - `canFire()` is called on every fire attempt; when it returns `false` (section not in viewport, wired to `useInViewport` in Task 13), the pointerdown is a no-op.
 
@@ -748,9 +797,11 @@ git commit -m "feat: add useTankControls composable"
 ## Task 13: Create `GameSection.vue`
 
 **Files:**
+
 - Create: `src/components/GameSection.vue`
 
 **Interfaces:**
+
 - Consumes: `useTankControls` (Task 12), `useInViewport` (Task 11), `tank.png` asset.
 - Produces: `GameSection` component, no props. Consumed by `App.vue` (Task 15), placed directly below `GameTargetsSection`.
 
@@ -816,7 +867,11 @@ onUnmounted(() => removeTouchListener?.())
         v-for="projectile in projectiles"
         :key="projectile.id"
         class="pointer-events-none absolute bottom-full h-[10px] w-[3px] -translate-x-1/2 rounded-full bg-white transition-transform ease-linear"
-        :style="{ left: `${projectile.x}px`, transitionDuration: `${PROJECTILE_TRAVEL_MS}ms`, transform: 'translate(-50%, -400px)' }"
+        :style="{
+          left: `${projectile.x}px`,
+          transitionDuration: `${PROJECTILE_TRAVEL_MS}ms`,
+          transform: 'translate(-50%, -400px)',
+        }"
       />
       <img
         :src="tankSprite"
@@ -853,9 +908,11 @@ git commit -m "feat: add interactive GameSection with tank movement and firing"
 ## Task 14: Resync `AppFooter.vue`
 
 **Files:**
+
 - Modify: `src/components/AppFooter.vue`
 
 **Interfaces:**
+
 - Produces: same footer markup, no props/emits.
 
 Figma's Footer (`4:68`) uses a `0.909px` top border (round to `1px`, Tailwind has no sub-pixel border utility) with `pt-[17px] pb-[16px]` (current: `pb-11 pt-9` = 44px/36px, too large).
@@ -889,9 +946,11 @@ git commit -m "fix: resync AppFooter padding to match Figma"
 ## Task 15: Compose the full page in `App.vue`
 
 **Files:**
+
 - Modify: `src/App.vue`
 
 **Interfaces:**
+
 - Consumes every component from Tasks 2–14: `FeatureCard`, `SectionHeading`, `PreorderSection`, `InvaderSection`, `PackagingPreviewSection`, `FaqSection`, `GameTargetsSection`, `GameSection`, `AppFooter`, `AppNav`, `HeroSection`.
 
 Final section order per the spec's inventory table: Nav → Hero → Card Section (heading + cards) → Invader → Preorder → Packaging Preview → FAQ → Game Targets → Game → Footer.

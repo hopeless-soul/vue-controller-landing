@@ -12,7 +12,7 @@ defineExpose({ playIntroSpin })
 <template>
   <div
     data-spin-stage
-    class="mx-auto flex aspect-square w-full max-w-[420px] cursor-grab touch-none select-none items-center justify-center opacity-0"
+    class="mx-auto flex aspect-square w-full max-w-[720px] cursor-grab touch-none select-none items-center justify-center opacity-0"
     @pointerdown="onPointerDown"
   >
     <img
@@ -20,7 +20,7 @@ defineExpose({ playIntroSpin })
       :src="CONTROLLER_FRAMES[0]"
       alt="Customs chrome controller shell, rotating product view"
       draggable="false"
-      class="pointer-events-none w-full drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
+      class="pointer-events-none w-full"
     />
   </div>
 </template>

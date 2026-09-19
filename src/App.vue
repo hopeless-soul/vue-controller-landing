@@ -28,32 +28,36 @@ onMounted(() => play())
     <StarfieldBackground />
     <div class="relative z-10 mx-auto max-w-[1200px] px-8">
       <AppNav />
-      <HeroSection ref="hero" />
 
-      <section id="features" class="flex flex-col gap-[64px] px-0 pt-[120px]">
-        <SectionHeading label="[ SPEC SHEET ]" heading="Built different" />
-        <div class="relative flex items-center justify-end">
-          <img
-            :src="assemblyTransparent"
-            alt="Steel grill assembly overlaid on the controller"
-            class="pointer-events-none absolute left-[-32px] w-[690px] max-w-none"
-          />
-          <div class="flex w-full max-w-[491px] flex-col gap-[38px]">
-            <FeatureCard
-              v-for="(feature, index) in FEATURES"
-              :key="feature.title"
-              :feature="feature"
-              :index="index"
+      <div class="flex flex-col gap-[80px] py-[4px]">
+        <HeroSection ref="hero" />
+
+        <section id="features" class="flex w-full flex-col gap-[64px]">
+          <SectionHeading label="[ SPEC SHEET ]" />
+          <div class="relative flex items-center justify-end">
+            <img
+              :src="assemblyTransparent"
+              alt="Steel grill assembly overlaid on the controller"
+              class="pointer-events-none absolute left-[-32px] w-[690px] max-w-none"
             />
+            <div class="flex w-full max-w-[491px] flex-col gap-0">
+              <FeatureCard
+                v-for="(feature, index) in FEATURES"
+                :key="feature.title"
+                :feature="feature"
+                :index="index"
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <InvaderSection />
-      <PreorderSection />
-      <GameTargetsSection />
-      <PackagingPreviewSection />
-      <FaqSection />
+        <InvaderSection />
+        <PreorderSection />
+        <GameTargetsSection />
+        <PackagingPreviewSection />
+        <FaqSection />
+      </div>
+
       <GameSection />
       <AppFooter />
     </div>

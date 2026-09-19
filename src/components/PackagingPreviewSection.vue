@@ -17,7 +17,7 @@ const revealTarget = useScrollReveal()
         height="348"
         class="w-full max-w-[693px]"
       />
-      <p class="max-w-[420px] pt-[4px] pb-[22px] text-center text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
+      <p class="max-w-[420px] pt-[4px] pb-[22px] text-center font-sans text-[17px] leading-[26px] text-[rgba(242,242,244,0.6)]">
         Hand-finished, laser-precision engineered packaging that transforms unboxing into ritual.
       </p>
     </div>

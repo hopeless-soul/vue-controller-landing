@@ -32,11 +32,19 @@ function toggle() {
         <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </button>
-    <p
-      v-if="body && isOpen"
-      class="m-0 max-w-[1042px] pb-[8px] text-[15px] leading-[1.6] text-[rgba(242,242,244,0.33)]"
+    <div
+      v-if="body"
+      class="grid transition-[grid-template-rows] duration-300 ease-in-out"
+      :style="{ gridTemplateRows: isOpen ? '1fr' : '0fr' }"
     >
-      {{ body }}
-    </p>
+      <div class="overflow-hidden">
+        <p
+          class="m-0 max-w-[1042px] pb-[8px] text-[15px] leading-[1.6] text-[rgba(242,242,244,0.33)] transition-opacity duration-200 ease-in-out"
+          :class="isOpen ? 'opacity-100' : 'opacity-0'"
+        >
+          {{ body }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>

@@ -15,15 +15,15 @@ function onPreorder(event: MouseEvent) {
 
 <template>
   <section id="preorder" class="px-0 pt-[120px] pb-40 text-center">
-    <div ref="revealTarget" class="flex flex-col items-center gap-[12.7px] opacity-0">
+    <div ref="revealTarget" class="flex flex-col items-center gap-[12px] opacity-0">
       <SectionHeading label="[ FIRST DROP ]" />
       <div
-        class="pt-[65px] pb-[13px] font-mono text-[clamp(30px,5vw,52px)] leading-[1.1] tracking-[-1.5px]"
+        class="pt-[65px] pb-[13px] font-mono text-[clamp(30px,5vw,52px)] leading-[57px] tracking-[-1.5px] text-[#F2F2F4]"
         style="font-variation-settings: 'BLED' 0, 'SCAN' -27"
       >
         300 units. One shot.
       </div>
-      <p class="max-w-[420px] pt-[4px] pb-[22px] text-[17px] leading-[1.55] text-[rgba(242,242,244,0.6)]">
+      <p class="max-w-[420px] pt-[4px] pb-[22px] font-sans text-[17px] leading-[26px] text-[rgba(242,242,244,0.6)]">
         Hand-finished in small batches and gone fast. Reserve now, ships worldwide this fall.
       </p>
       <button
