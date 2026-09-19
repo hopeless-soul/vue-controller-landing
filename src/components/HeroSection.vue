@@ -40,19 +40,19 @@ defineExpose({
     <svg width="0" height="0" class="absolute" aria-hidden="true">
       <defs>
         <filter id="chrome-text-inner-shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur1" />
-          <feOffset in="blur1" dx="0" dy="-1" result="offset1" />
-          <feComposite in="SourceGraphic" in2="offset1" operator="out" result="inverse1" />
-          <feFlood flood-color="#000000" flood-opacity="0.52" result="color1" />
-          <feComposite in="color1" in2="inverse1" operator="in" result="shadow1" />
-          <feComposite in="shadow1" in2="SourceGraphic" operator="over" result="with-shadow" />
-
           <feGaussianBlur in="SourceAlpha" stdDeviation="4.4" result="blur2" />
           <feOffset in="blur2" dx="0" dy="-1" result="offset2" />
           <feComposite in="SourceGraphic" in2="offset2" operator="out" result="inverse2" />
           <feFlood flood-color="#ffffff" flood-opacity="1" result="color2" />
           <feComposite in="color2" in2="inverse2" operator="in" result="glow2" />
-          <feComposite in="glow2" in2="with-shadow" operator="over" />
+          <feComposite in="glow2" in2="SourceGraphic" operator="over" result="with-glow" />
+
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="blur1" />
+          <feOffset in="blur1" dx="0" dy="-2.5" result="offset1" />
+          <feComposite in="SourceGraphic" in2="offset1" operator="out" result="inverse1" />
+          <feFlood flood-color="#000000" flood-opacity="1" result="color1" />
+          <feComposite in="color1" in2="inverse1" operator="in" result="shadow1" />
+          <feComposite in="shadow1" in2="with-glow" operator="over" />
         </filter>
       </defs>
     </svg>
