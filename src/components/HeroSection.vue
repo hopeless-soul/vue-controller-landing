@@ -63,7 +63,7 @@ defineExpose({
       A hand-finished steel grill that goes over your controller in seconds — mirror-polished,
       feather-light, zero compromise.
     </p>
-    <div class="relative w-full pt-[112px]">
+    <div class="relative w-full pt-[32px]">
       <div
         class="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-[112px] flex h-[64px] w-[500px] max-w-[90%] items-center justify-center bg-[#c5c5c5]"
       >

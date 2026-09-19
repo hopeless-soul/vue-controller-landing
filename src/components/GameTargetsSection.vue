@@ -5,7 +5,7 @@ const TARGET_COUNT = 5
 </script>
 
 <template>
-  <section class="flex items-start justify-center gap-[98px] pt-[120px]">
+  <section class="flex items-start justify-center gap-[98px]">
     <img
       v-for="n in TARGET_COUNT"
       :key="n"
