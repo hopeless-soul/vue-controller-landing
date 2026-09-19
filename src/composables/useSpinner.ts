@@ -25,6 +25,19 @@ export interface Spinner {
 }
 
 /**
+ * Fetches every frame into the browser's image cache so drag-driven `src`
+ * swaps are instant. Without this, only the first frame is loaded up front;
+ * every other frame is fetched lazily on first use, which is invisible on a
+ * local dev server but stalls the drag over a real network (e.g. on Vercel).
+ */
+function preloadFrames(frames: string[]) {
+  for (const src of frames) {
+    const image = new Image()
+    image.src = src
+  }
+}
+
+/**
  * Drag-to-rotate logic for the product spinner. Mutates `imgRef`'s `src`
  * directly on every frame change instead of going through Vue reactivity —
  * during a fast drag that would mean a render per pointermove, which stutters.
@@ -37,6 +50,8 @@ export function useSpinner(
   const sensitivity = options.sensitivity ?? 1
   let currentFrame = 0
   let spinProxy: { frame: number } | undefined
+
+  preloadFrames(frames)
 
   function setFrame(frame: number) {
     currentFrame = frame
