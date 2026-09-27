@@ -179,7 +179,15 @@ defineExpose({ playIntroSpin })
       >
         <span data-counter-text>{{ Math.round(displayed) }}%</span>
       </div>
-      <span ref="label" class="col-start-1 row-start-1 place-self-center text-[#252525] opacity-0">
+      <!--
+        Positioned so it paints above the clip-path layer, which forms its own
+        stacking context; unpositioned, the label would vanish under it once its
+        fade-in reaches opacity 1.
+      -->
+      <span
+        ref="label"
+        class="relative z-10 col-start-1 row-start-1 place-self-center text-[#252525] opacity-0"
+      >
         [ 360° INSPECT ]
       </span>
     </div>
