@@ -1,54 +1,72 @@
-# vue-controller-landing
+<div align="center">
 
-This template should help get you started developing with Vue 3 in Vite.
+<img src="src/assets/logo.png" alt="Customs logo" height="64" />
 
-## Recommended IDE Setup
+# YOUR CONTROLLER. CHROMED.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+**Landing page for Customs, a mirror-polished chrome shell for game controllers.**
 
-## Recommended Browser Setup
+![Vue](https://img.shields.io/badge/Vue-3.5-42b883?style=flat-square&logo=vuedotjs&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646cff?style=flat-square&logo=vite&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6-3178c6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)
+![anime.js](https://img.shields.io/badge/anime.js-4-1a1a1c?style=flat-square)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+</div>
 
-## Type Support for `.vue` Imports in TS
+---
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+> [!NOTE]
+> **3D models (Blender)** by Herashchenko Vladyslav.
+>
+> **Landing design (Figma)** by Herashchenko Vladyslav.
 
-## Customize configuration
+## Highlights
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <sub><code>01 / HERO</code></sub>
+      <h3>360° product spinner</h3>
+      16 pre-rendered frames decoded into <code>ImageBitmap</code>s and drawn to a <code>&lt;canvas&gt;</code>. Drag to inspect, flick for inertia.
+    </td>
+    <td width="50%" valign="top">
+      <sub><code>02 / BACKGROUND</code></sub>
+      <h3>Parallax starfield</h3>
+      Seeded, deterministic two-layer star orbits that speed up and drift with your scroll velocity.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <sub><code>03 / MOTION</code></sub>
+      <h3>Choreographed intro</h3>
+      An anime.js timeline reveals the chrome hero type and kicks off an intro spin.
+    </td>
+    <td width="50%" valign="top">
+      <sub><code>04 / PLAY</code></sub>
+      <h3>Playable Minigane</h3>
+      A tiny tank near the footer follows your pointer and fires at a row of targets.
+    </td>
+  </tr>
+</table>
 
-## Project Setup
+## Quick start
+
+Requires Node `^22.18.0` or `>=24.12.0`.
 
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Project layout
 
-```sh
-npm run build
 ```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+src/
+  components/    page sections (Hero, Spec Sheet, Preorder, FAQ, Game, ...)
+  composables/   spinner, intro timeline, scroll reveal, scroll velocity, tank controls
+  starfield/     canvas starfield engine, config and seeded PRNG
+  content/       copy and data for features and spinner frames
+  lib/           frame loader and helpers
+  assets/        controller renders, sprites and artwork
 ```
