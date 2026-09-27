@@ -1,5 +1,6 @@
-import { animate } from 'animejs'
-import type { Ref } from 'vue'
+import { animate, type JSAnimation } from 'animejs'
+import { onScopeDispose, type Ref } from 'vue'
+import { spinnerLog } from '@/lib/spinnerLog'
 
 export const FRAME_COUNT = 16
 
@@ -20,66 +21,121 @@ export interface UseSpinnerOptions {
 
 export interface Spinner {
   onPointerDown: (event: PointerEvent) => void
-  /** Plays one full auto-rotation, matching the hero's mount-time intro. */
+  /** Hands over the decoded frames; drawing and dragging are no-ops until then. */
+  setBitmaps: (bitmaps: ImageBitmap[]) => void
+  /** Plays one full auto-rotation from the current frame. */
   playIntroSpin: () => void
 }
 
-/**
- * Fetches every frame into the browser's image cache so drag-driven `src`
- * swaps are instant. Without this, only the first frame is loaded up front;
- * every other frame is fetched lazily on first use, which is invisible on a
- * local dev server but stalls the drag over a real network (e.g. on Vercel).
- */
-function preloadFrames(frames: string[]) {
-  for (const src of frames) {
-    const image = new Image()
-    image.src = src
-  }
-}
+type AnimationKind = 'inertia' | 'intro'
+
+/** Pointer velocity older than this (ms) at release counts as a stop, not a flick. */
+const VELOCITY_STALE_MS = 100
 
 /**
- * Drag-to-rotate logic for the product spinner. Mutates `imgRef`'s `src`
- * directly on every frame change instead of going through Vue reactivity —
- * during a fast drag that would mean a render per pointermove, which stutters.
+ * Drag-to-rotate logic for the product spinner, drawn to a canvas from
+ * pre-decoded bitmaps. There is exactly one frame value and at most one
+ * running animation: grabbing or starting a new animation cancels the old
+ * one, so drag and animation never write frames at the same time. Input only
+ * updates `frame`; a single rAF callback draws, skipping repeat frames.
  */
 export function useSpinner(
-  imgRef: Ref<HTMLImageElement | null>,
-  frames: string[],
+  canvasRef: Ref<HTMLCanvasElement | null>,
   options: UseSpinnerOptions = {},
 ): Spinner {
   const sensitivity = options.sensitivity ?? 1
-  let currentFrame = 0
-  let spinProxy: { frame: number } | undefined
+  let bitmaps: ImageBitmap[] = []
+  let frame = 0
+  let lastDrawnIndex = -1
+  let rafId = 0
+  let dragging = false
+  let active: { kind: AnimationKind; animation: JSAnimation } | null = null
 
-  preloadFrames(frames)
-
-  function setFrame(frame: number) {
-    currentFrame = frame
-    const src = frames[normalizeFrame(frame, frames.length)]
-    if (imgRef.value && src) imgRef.value.src = src
+  function draw() {
+    rafId = 0
+    const canvas = canvasRef.value
+    const context = canvas?.getContext('2d')
+    if (!canvas || !context) return
+    const index = normalizeFrame(frame, FRAME_COUNT)
+    if (index === lastDrawnIndex) return
+    const bitmap = bitmaps[index]
+    if (!bitmap) {
+      spinnerLog.warn('draw:skipped', { index })
+      return
+    }
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
+    lastDrawnIndex = index
   }
 
-  function animateFrames(to: number, duration: number, ease: string) {
-    spinProxy = { frame: currentFrame }
-    animate(spinProxy, {
+  function setFrame(value: number) {
+    frame = value
+    if (bitmaps.length > 0 && rafId === 0) rafId = requestAnimationFrame(draw)
+  }
+
+  function stopAnimation() {
+    if (!active) return
+    spinnerLog.warn('animation:interrupted', {
+      animation: active.kind,
+      frame: Math.round(frame * 100) / 100,
+    })
+    active.animation.cancel()
+    active = null
+  }
+
+  function animateFrames(
+    kind: AnimationKind,
+    to: number,
+    duration: number,
+    ease: string,
+    onDone?: () => void,
+  ) {
+    stopAnimation()
+    const proxy = { frame }
+    const animation = animate(proxy, {
       frame: to,
       duration,
       ease,
-      onUpdate: () => setFrame(spinProxy!.frame),
+      onUpdate: () => setFrame(proxy.frame),
+      onComplete: () => {
+        if (active?.animation === animation) active = null
+        onDone?.()
+      },
     })
+    active = { kind, animation }
   }
 
   function onPointerDown(event: PointerEvent) {
+    if (bitmaps.length === 0) {
+      spinnerLog.warn('drag:ignored', { reason: 'not-ready' })
+      return
+    }
+    if (event.button !== 0) {
+      spinnerLog.warn('drag:ignored', { reason: 'non-primary-button', button: event.button })
+      return
+    }
+    if (dragging) {
+      spinnerLog.warn('drag:ignored', { reason: 'already-dragging' })
+      return
+    }
     event.preventDefault()
+    stopAnimation()
+
     const stage = event.currentTarget as HTMLElement
+    const { pointerId } = event
+    stage.setPointerCapture(pointerId)
     stage.style.cursor = 'grabbing'
+    dragging = true
+
     const startX = event.clientX
-    const startFrame = currentFrame
+    const startFrame = frame
     let lastX = event.clientX
     let lastT = performance.now()
     let velocity = 0
+    spinnerLog.debug('drag:start', { pointerId, startFrame })
 
     const onMove = (moveEvent: PointerEvent) => {
+      if (moveEvent.pointerId !== pointerId) return
       const now = performance.now()
       velocity = (moveEvent.clientX - lastX) / Math.max(now - lastT, 1)
       lastX = moveEvent.clientX
@@ -87,24 +143,52 @@ export function useSpinner(
       setFrame(frameFromDrag(startFrame, moveEvent.clientX - startX, sensitivity))
     }
 
-    const onUp = () => {
-      window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('pointerup', onUp)
-      stage.style.cursor = 'grab'
-      // Inertia: convert px/ms velocity into extra frames, ease out.
-      const extra = velocity * 14 * sensitivity
+    const end = (endEvent: PointerEvent) => {
+      if (endEvent.pointerId !== pointerId) return
+      stage.removeEventListener('pointermove', onMove)
+      stage.removeEventListener('pointerup', end)
+      stage.removeEventListener('pointercancel', end)
+      stage.removeEventListener('lostpointercapture', end)
+      if (stage.hasPointerCapture(pointerId)) stage.releasePointerCapture(pointerId)
+      stage.style.cursor = ''
+      dragging = false
+
+      if (performance.now() - lastT > VELOCITY_STALE_MS) velocity = 0
+      // Inertia: convert px/ms velocity into extra frames, ease out. Only a real
+      // release flicks; a cancelled or lost pointer just stops where it is.
+      const extra = endEvent.type === 'pointerup' ? velocity * 14 * sensitivity : 0
+      spinnerLog.debug('drag:end', { reason: endEvent.type, velocity, inertiaFrames: extra })
       if (Math.abs(extra) > 0.5) {
-        animateFrames(currentFrame + extra, Math.min(1400, 300 + Math.abs(extra) * 90), 'outQuart')
+        spinnerLog.debug('inertia:start', { from: frame, to: frame + extra })
+        animateFrames('inertia', frame + extra, Math.min(1400, 300 + Math.abs(extra) * 90), 'outQuart')
       }
     }
 
-    window.addEventListener('pointermove', onMove)
-    window.addEventListener('pointerup', onUp)
+    stage.addEventListener('pointermove', onMove)
+    stage.addEventListener('pointerup', end)
+    stage.addEventListener('pointercancel', end)
+    stage.addEventListener('lostpointercapture', end)
+  }
+
+  function setBitmaps(next: ImageBitmap[]) {
+    bitmaps = next
+    lastDrawnIndex = -1
+    setFrame(frame)
   }
 
   function playIntroSpin() {
-    animateFrames(FRAME_COUNT, 2600, 'inOutCubic')
+    if (bitmaps.length === 0) return
+    spinnerLog.info('intro-spin:start')
+    animateFrames('intro', frame + FRAME_COUNT, 2600, 'inOutCubic', () =>
+      spinnerLog.info('intro-spin:done'),
+    )
   }
 
-  return { onPointerDown, playIntroSpin }
+  onScopeDispose(() => {
+    active?.animation.cancel()
+    active = null
+    if (rafId !== 0) cancelAnimationFrame(rafId)
+  })
+
+  return { onPointerDown, setBitmaps, playIntroSpin }
 }

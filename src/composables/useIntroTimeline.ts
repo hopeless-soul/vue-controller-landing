@@ -2,9 +2,9 @@ import { createTimeline, stagger } from 'animejs'
 
 /**
  * Builds and plays the once-per-load hero entrance: nav, then each hero
- * word staggered in, then the subhead, then the spinner fading/scaling in.
- * `onSpinIntro` is invoked ~900ms after play() starts, matching the original
- * design's one-full-rotation auto-spin once the spinner is visible.
+ * word staggered in, then the subhead. `onSpinIntro` is invoked ~900ms after
+ * play() starts to request the spinner reveal; the spinner itself waits
+ * until its frames are loaded before revealing and spinning.
  */
 export function useIntroTimeline(onSpinIntro: () => void): { play: () => void } {
   function play() {
@@ -23,7 +23,6 @@ export function useIntroTimeline(onSpinIntro: () => void): { play: () => void } 
         '-=400',
       )
       .add('[data-reveal="sub"]', { opacity: [0, 1], translateY: [16, 0], duration: 700, ease: 'outCubic' }, '-=500')
-      .add('[data-spin-stage]', { opacity: [0, 1], scale: [0.9, 1], duration: 900, ease: 'outExpo' }, '-=450')
 
     setTimeout(onSpinIntro, 900)
   }

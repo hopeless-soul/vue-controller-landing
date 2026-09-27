@@ -63,22 +63,6 @@ defineExpose({
       A hand-finished steel grill that goes over your controller in seconds — mirror-polished,
       feather-light, zero compromise.
     </p>
-    <div class="relative w-full pt-[32px]">
-      <div
-        class="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-[112px] flex h-[64px] w-[500px] max-w-[90%] items-center justify-center bg-[#c5c5c5]"
-      >
-        <span
-          class="font-mono text-[15px] leading-7 uppercase tracking-[4px] text-black"
-          style="
-            font-variation-settings:
-              'BLED' 0,
-              'SCAN' 0;
-          "
-        >
-          [ 360° INSPECT ]
-        </span>
-      </div>
-      <ProductSpinner ref="spinner" class="w-full" />
-    </div>
+    <ProductSpinner ref="spinner" class="w-full" />
   </section>
 </template>

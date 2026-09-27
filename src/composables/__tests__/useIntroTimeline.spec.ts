@@ -12,7 +12,6 @@ const Fixture = defineComponent({
         h('nav', { 'data-reveal': 'nav', style: { opacity: 0 } }),
         h('span', { 'data-hero-word': '', style: { opacity: 0 } }, 'Your'),
         h('p', { 'data-reveal': 'sub', style: { opacity: 0 } }),
-        h('div', { 'data-spin-stage': '', style: { opacity: 0 } }),
         h('button', { onClick: () => play() }, 'play'),
       ])
   },
