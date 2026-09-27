@@ -12,6 +12,8 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![anime.js](https://img.shields.io/badge/anime.js-4-1a1a1c?style=flat-square)
 
+**[Live Demo](https://vue-controller-landing.vercel.app/) is hosted on Vercel.** 
+
 </div>
 
 ---
