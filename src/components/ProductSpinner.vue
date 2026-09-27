@@ -128,7 +128,7 @@ defineExpose({ playIntroSpin })
     <div
       ref="stage"
       data-spin-stage
-      class="mx-auto flex aspect-square w-full max-w-[720px] cursor-grab touch-none select-none items-center justify-center opacity-0"
+      class="relative z-20 mx-auto flex aspect-square w-full max-w-[720px] cursor-grab touch-none select-none items-center justify-center opacity-0"
       @pointerdown="spinner.onPointerDown"
     >
       <img
