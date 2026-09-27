@@ -116,10 +116,10 @@ text-[15px] leading-7 uppercase tracking-[4px] text-black`, `font-variation-sett
   That wrapper moves into `ProductSpinner.vue` together with the badge.
 - **Loading position**: centred vertically on the spinner stage, expressed in plain CSS, so a
   resize during loading needs no special handling.
-- **Counter**: text is `` `${Math.round(displayed)}%` ``, rendered twice, stacked:
-  - base layer: black (current badge text colour);
-  - fill layer: `#FFFFFF`, `clip-path: inset(${100 - displayed}% 0 0 0)`, so white fills the
-    glyphs bottom → top.
+- **Counter**: text is `` `${Math.round(displayed)}%` ``. The badge is at `opacity 0.5` while loading and goes to 1 on reveal. It is two identical stacked layers:
+  - empty layer: background `#252525`, text `#c5c5c5`;
+  - filled layer: background `#c5c5c5`, text `#252525`, `clip-path: inset(${100 - displayed}% 0 0 0)`,
+    so one clip moves the fill and the text colour together, bottom → top. The label `[ 360° INSPECT ]` is `#252525`.
 - While loading, the badge has `role="progressbar"`, `aria-valuemin=0`, `aria-valuemax=100`, and
   `aria-valuenow` set to the rounded displayed value.
 
