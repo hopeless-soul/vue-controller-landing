@@ -14,6 +14,11 @@ interface UseTankControlsOptions {
   projectileTravelMs: number
 }
 
+/** Time constant of the exponential ease toward the pointer — lower is snappier. */
+const FOLLOW_TIME_CONSTANT_MS = 10
+/** Distance (px) at which the tank snaps onto its target and the follow loop stops. */
+const FOLLOW_SNAP_DISTANCE = 0.5
+
 let nextProjectileId = 0
 
 export function useTankControls(options: UseTankControlsOptions): {
@@ -27,6 +32,10 @@ export function useTankControls(options: UseTankControlsOptions): {
   const tankX = ref(0)
   const projectiles = ref<Projectile[]>([])
   const pendingTimeouts = new Set<number>()
+  let targetX = 0
+  let followRafId: number | null = null
+  let lastFrameTime = 0
+  let prefersReducedMotion = false
 
   function clampToTrack(x: number): number {
     const track = trackRef.value
@@ -41,7 +50,32 @@ export function useTankControls(options: UseTankControlsOptions): {
     if (!track) return
     const rect = track.getBoundingClientRect()
     const relativeX = event.clientX - rect.left - options.tankWidth / 2
-    tankX.value = clampToTrack(relativeX)
+    targetX = clampToTrack(relativeX)
+    if (prefersReducedMotion) {
+      tankX.value = targetX
+      return
+    }
+    startFollowing()
+  }
+
+  function startFollowing() {
+    if (followRafId !== null) return
+    lastFrameTime = performance.now()
+    followRafId = requestAnimationFrame(followStep)
+  }
+
+  // Frame-rate independent exponential ease-out toward targetX.
+  function followStep(now: number) {
+    const dt = now - lastFrameTime
+    lastFrameTime = now
+    const alpha = 1 - Math.exp(-dt / FOLLOW_TIME_CONSTANT_MS)
+    tankX.value += (targetX - tankX.value) * alpha
+    if (Math.abs(targetX - tankX.value) < FOLLOW_SNAP_DISTANCE) {
+      tankX.value = targetX
+      followRafId = null
+      return
+    }
+    followRafId = requestAnimationFrame(followStep)
   }
 
   function fire() {
@@ -69,6 +103,7 @@ export function useTankControls(options: UseTankControlsOptions): {
   }
 
   onMounted(() => {
+    prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     window.addEventListener('pointermove', onWindowPointerMove)
     window.addEventListener('pointerdown', onWindowPointerDown)
   })
@@ -76,6 +111,8 @@ export function useTankControls(options: UseTankControlsOptions): {
   onUnmounted(() => {
     window.removeEventListener('pointermove', onWindowPointerMove)
     window.removeEventListener('pointerdown', onWindowPointerDown)
+    if (followRafId !== null) cancelAnimationFrame(followRafId)
+    followRafId = null
     pendingTimeouts.forEach((timeoutId) => window.clearTimeout(timeoutId))
     pendingTimeouts.clear()
   })
