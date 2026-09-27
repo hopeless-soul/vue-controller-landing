@@ -154,6 +154,36 @@ If `loadFrames` rejects:
 
 The page never stays stuck on the loader.
 
+## Console logging
+
+`src/lib/spinnerLog.ts` (new) is a tiny wrapper that prefixes every message with `[spinner]`
+and a timestamp in ms since page load (`performance.now()`, rounded). There is no existing
+logging or ESLint `no-console` rule to follow. The logs stay on in production builds so issues
+can be diagnosed on the deployed site.
+
+- **Stages** use `console.info`:
+  - `load:start` (frame count);
+  - `load:frame` (index, ms taken, done/total);
+  - `load:done` (total ms);
+  - `intro:requested`;
+  - `handoff:start` / `handoff:done`;
+  - `intro-spin:start` / `intro-spin:done`.
+- **Issues** use `console.warn`:
+  - `load:retry` (index, url, error);
+  - `draw:skipped`: frame index requested before its bitmap exists; should never happen;
+  - `drag:ignored` (reason: `not-ready`, `non-primary-button`);
+  - `animation:interrupted` (which animation, e.g. `inertia` / `intro`, and the frame it was
+    stopped at). This is expected on a grab, but it's the old bug's trigger, so it's visible.
+- **Failures** use `console.error`:
+  - `load:failed` (index, url, error), followed by `fallback:static-image`;
+  - `canvas:no-context`: `getContext('2d')` returned null, handled like a load failure.
+- **Interaction detail** uses `console.debug`, which is hidden unless DevTools shows "Verbose":
+  - `drag:start` (pointerId, startFrame);
+  - `drag:end` (end reason `pointerup` / `pointercancel` / `lostpointercapture`, velocity,
+    inertia frames);
+  - `inertia:start`.
+- Nothing is logged per pointermove or per draw, so there's no log spam during a drag.
+
 ## Testing (kept minimal)
 
 - Keep the existing `normalizeFrame` / `frameFromDrag` tests unchanged.
@@ -167,7 +197,9 @@ The page never stays stuck on the loader.
   - repeated fast flicks, including grabbing mid-inertia and mid-intro, never jump or show
     blank or half-drawn frames;
   - right-click on the stage does not start a drag;
-  - a warm-cache reload shows a brief (≥400 ms) count, not a flash.
+  - a warm-cache reload shows a brief (≥400 ms) count, not a flash;
+  - the console shows the stage sequence in order, and `animation:interrupted` appears when
+    grabbing mid-spin.
 - `npm run type-check`, `npm run lint` and `npx vitest run` pass.
 
 ## Out of scope
