@@ -38,7 +38,8 @@ const { trackRef, tankX, projectiles } = useTankControls({
         :src="tankSprite"
         alt=""
         aria-hidden="true"
-        class="absolute h-[30px] w-[57px]"
+        draggable="false"
+        class="absolute h-[30px] w-[57px] select-none"
         :style="{ left: `${tankX}px` }"
       />
     </div>
